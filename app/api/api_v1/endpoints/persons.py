@@ -2,18 +2,18 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.db import get_db
-from app.db_models import Persons
+from app.dal import get_person_with_tenure_schema_by_person_id
+from app.schemas import PersonWithTenureSchema
 
 persons_router = APIRouter()
 
 
 @persons_router.get(
-    path="/TEST_get_person_info",
-    response_model=str
+    path="/get_person_info",
+    response_model=PersonWithTenureSchema
 )
 async def get_person_info(
         person_id: int,
         db: Session = Depends(get_db)
 ):
-    person = db.query(Persons).get(person_id)
-    return f"{person.prsn_name}"
+    return await get_person_with_tenure_schema_by_person_id(db=db, person_id=person_id)
