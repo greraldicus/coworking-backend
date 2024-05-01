@@ -30,3 +30,17 @@ class PersonWithTenureSchema(PersonBaseSchema):
         validation_alias=AliasChoices('tenr_title', 'tenure'),
         serialization_alias='tenure'
     )
+
+
+class PersonCreateSchema(BaseSchema):
+    prsn_name: str
+    prsn_surname: str
+    prsn_patronymic: str
+    prsn_tenr_id: int
+
+    class Config:
+        from_attributes = True
+
+
+class PersonUpdateSchema(PersonCreateSchema):
+    pass
