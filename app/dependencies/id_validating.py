@@ -1,4 +1,4 @@
-from typing import TypeVar, Any
+from typing import TypeVar, Any, Type
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -10,7 +10,7 @@ ModelType = TypeVar("ModelType", bound=Any)
 async def get_model_if_valid_id(
         db: Session,
         validating_id: int,
-        model_type: ModelType
+        model_type: Type[ModelType]
 ) -> ModelType:
     try:
         model_obj = db.query(model_type).get(validating_id)

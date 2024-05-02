@@ -3,7 +3,9 @@ from sqlalchemy.orm import Session
 from app.db_models import Persons
 from app.dependencies import get_model_if_valid_id
 from .tenures import get_tenure_model_by_person_id
-from app.schemas import PersonWithTenureSchema
+from app.schemas import PersonWithTenureSchema, PersonCreateSchema
+
+from .CRUD.CRUD_persons import crud_persons
 
 
 async def get_person_model_by_id(db: Session, person_id: int) -> Persons:
@@ -19,3 +21,9 @@ async def get_person_with_tenure_schema_by_person_id(db: Session, person_id: int
         surname=person_model.prsn_surname,
         tenure=person_tenure.tenr_title
     )
+
+
+async def create_person_with_tenure_id(db: Session, person_schema: PersonCreateSchema) -> int:
+    person_model = await crud_persons.create(db=db, object_create_schema=person_schema)
+    db.commit()
+    return person_model.prsn_id

@@ -53,13 +53,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 entity_id=obj_in.model_dump()[inspect(self.model).primary_key[0].name]
             )
 
-    def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
+    def create(self, db: Session, *, object_create_schema: CreateSchemaType) -> ModelType:
         try:
-            obj_in_data = jsonable_encoder(obj_in)
-            if isinstance(obj_in, dict):
+            obj_in_data = jsonable_encoder(object_create_schema)
+            if isinstance(object_create_schema, dict):
                 create_data = obj_in_data
             else:
-                create_data = obj_in.model_dump(exclude_unset=True)
+                create_data = object_create_schema.model_dump(exclude_unset=True)
 
             db_obj = self.model(**create_data)
             db.add(db_obj)
