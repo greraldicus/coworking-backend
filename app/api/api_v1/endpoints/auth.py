@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.auth import encode_jwt, get_user_by_credentials
-from app.schemas import UserAuthSchema, JwtTokenSchema
+from app.schemas import JwtTokenSchema
 
 auth_router = APIRouter(prefix="/auth")
 
@@ -11,7 +11,7 @@ auth_router = APIRouter(prefix="/auth")
     response_model=JwtTokenSchema
 )
 async def authenticate_user(
-    user: UserAuthSchema = Depends(get_user_by_credentials)
+    user: JwtTokenSchema = Depends(get_user_by_credentials)
 ):
     access_token = encode_jwt(payload=user.model_dump())
     return JwtTokenSchema(

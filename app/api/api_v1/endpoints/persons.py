@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.db import get_db
 from app.dal import get_person_with_tenure_schema_by_person_id, create_person_with_tenure_id
 from app.schemas import PersonWithTenureSchema, PersonCreateSchema
+from app.auth import get_current_auth_user
 
 persons_router = APIRouter()
 
@@ -13,7 +14,7 @@ persons_router = APIRouter()
     response_model=PersonWithTenureSchema
 )
 async def get_person_endpoint(
-        person_id: int,
+        person_id: int = Depends(get_current_auth_user),
         db: Session = Depends(get_db)
 ):
     return await get_person_with_tenure_schema_by_person_id(db=db, person_id=person_id)

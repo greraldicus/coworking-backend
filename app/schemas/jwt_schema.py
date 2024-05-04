@@ -9,5 +9,3 @@ class JwtTokenSchema(BaseModel):
 class JwtPayloadSchema(BaseModel):
     sub: int
     username: str
-    iat: str
-    exp: str

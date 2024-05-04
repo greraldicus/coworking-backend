@@ -11,6 +11,7 @@ def get_token_expiration(expire_minutes: int) -> datetime:
 
 def add_token_expiration_to_payload(payload: dict, expire_minutes: int) -> dict:
     payload.update(
+        iat=datetime.utcnow(),
         exp=get_token_expiration(expire_minutes=expire_minutes)
     )
     return payload
