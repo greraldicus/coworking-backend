@@ -1,6 +1,8 @@
 from datetime import timedelta, datetime
 
+from fastapi import HTTPException, status
 import jwt
+from jwt.exceptions import ExpiredSignatureError
 
 from app.core import settings
 
@@ -23,19 +25,26 @@ def encode_jwt(
     algorithm=settings.auth_jwt.algorithm,
     expire_minutes: int = settings.auth_jwt.access_token_expire_minutes
 ):
-    payload_with_exp = add_token_expiration_to_payload(payload=payload, expire_minutes=expire_minutes)
-    encoded = jwt.encode(payload=payload_with_exp, key=private_key, algorithm=algorithm)
-    return encoded
+    try:
+        payload_with_exp = add_token_expiration_to_payload(payload=payload, expire_minutes=expire_minutes)
+        encoded = jwt.encode(payload=payload_with_exp, key=private_key, algorithm=algorithm)
+        return encoded
+    except Exception as err:
+        raise err
 
 
 def decode_jwt(
     token: str,
     public_key: str = settings.auth_jwt.public_key_path.read_text(),
     algorithm: str = settings.auth_jwt.algorithm,
-):
-    decoded = jwt.decode(
-        token,
-        public_key,
-        algorithms=[algorithm]
-    )
-    return decoded
+) -> dict:
+    try:
+        return jwt.decode(
+            token,
+            public_key,
+            algorithms=[algorithm]
+        )
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Token has expired')
+    except Exception as err:
+        raise err

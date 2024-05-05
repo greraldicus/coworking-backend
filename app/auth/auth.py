@@ -38,8 +38,8 @@ def get_user_by_credentials(
         raise err
 
 
-def get_token_decoded(
+def get_token_payload(
     token: HTTPAuthorizationCredentials = Depends(http_bearer)
-):
+) -> dict:
     print()
     return decode_jwt(token.credentials)
