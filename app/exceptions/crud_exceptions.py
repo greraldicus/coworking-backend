@@ -1,3 +1,6 @@
+from fastapi import status
+
+
 class CrudBaseExc(Exception):
     """
         Error raises by one of the incorrect update/create/delete entity operation

@@ -1,11 +1,12 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 from app.db import get_db
 from app.schemas import UserAuthSchema, JwtPayloadSchema
 from app.db_models import Users
 from .password_hasher import validate_password
+from .utils import decode_jwt
 
 http_bearer = HTTPBearer()
 
@@ -37,7 +38,8 @@ def get_user_by_credentials(
         raise err
 
 
-def get_current_auth_user(
-    token: str = Depends(http_bearer)
+def get_token_decoded(
+    token: HTTPAuthorizationCredentials = Depends(http_bearer)
 ):
-    pass
+    print()
+    return decode_jwt(token.credentials)

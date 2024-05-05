@@ -7,3 +7,4 @@ from .persons_schemas import (
 )
 from .users_schemas import UserAuthSchema
 from .jwt_schema import JwtTokenSchema, JwtPayloadSchema
+from .roles_schemas import RolesUpdateSchema, RolesCreateSchema
