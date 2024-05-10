@@ -8,6 +8,7 @@ from app.schemas.tenures_schemas import TenureUpdateSchema, TenureCreateSchema
 
 
 class CRUDTenures(CRUDBase[Tenures, TenureUpdateSchema, TenureCreateSchema]):
-   pass
+    pass
+
 
 crud_tenures = CRUDTenures(Tenures)
