@@ -1,31 +1,33 @@
-from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import Depends, HTTPException, status, Form
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
 from app.db import get_db
-from app.schemas import UserAuthSchema, JwtPayloadSchema
+from .jwt_schema import JwtPayloadSchema
 from app.db_models import Users
 from .password_hasher import validate_password
 from .utils import decode_jwt
 
-http_bearer = HTTPBearer()
+oauth_2_scheme = OAuth2PasswordBearer(tokenUrl='/api_v1/auth/login')
 
 
 def get_user_by_credentials(
-        user_schema: UserAuthSchema,
+        username: str = Form(),
+        password: str = Form(),
         db: Session = Depends(get_db)
 ) -> JwtPayloadSchema:
     """
-    :param user_schema: User login schema
+    :param password: password from form
+    :param username: username from form
     :param db: Database session
     :return:
     """
     try:
-        user_model = db.query(Users).filter(Users.usr_login == user_schema.login).first()
+        user_model = db.query(Users).filter(Users.usr_login == username).first()
         if user_model is None:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect login")
         is_password_valid = validate_password(
-            user_schema.password,
+            password,
             str(user_model.usr_hashed_password).encode()
         )
         if not is_password_valid:
@@ -39,7 +41,7 @@ def get_user_by_credentials(
 
 
 def get_token_payload(
-    token: HTTPAuthorizationCredentials = Depends(http_bearer)
+    token: str = Depends(oauth_2_scheme)
 ) -> dict:
-    print()
-    return decode_jwt(token.credentials)
+    print(token)
+    return decode_jwt(token)

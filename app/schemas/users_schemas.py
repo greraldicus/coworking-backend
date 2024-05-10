@@ -1,4 +1,4 @@
-from pydantic import Field, AliasChoices, ConfigDict
+from pydantic import ConfigDict
 
 from .base_schema import BaseSchema
 
@@ -6,5 +6,5 @@ from .base_schema import BaseSchema
 class UserAuthSchema(BaseSchema):
     model_config = ConfigDict(strict=True)
 
-    login: str
+    username: str
     password: str
