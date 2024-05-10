@@ -4,6 +4,7 @@ from fastapi import HTTPException, status
 import jwt
 from jwt.exceptions import ExpiredSignatureError
 
+from .constants import ACCESS_TOKEN_TYPE, REFRESH_TOKEN_TYPE, TOKEN_TYPE_FIELD
 from app.core import settings
 
 
@@ -48,3 +49,32 @@ def decode_jwt(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Token has expired')
     except Exception as err:
         raise err
+
+
+def create_token(
+    payload: dict,
+    token_type: str,
+    expire_minutes: int,
+) -> str:
+    payload[TOKEN_TYPE_FIELD] = token_type
+    return encode_jwt(payload=payload, expire_minutes=expire_minutes)
+
+
+def create_access_token(
+    payload: dict
+) -> str:
+    return create_token(
+        payload=payload,
+        token_type=ACCESS_TOKEN_TYPE,
+        expire_minutes=settings.auth_jwt.access_token_expire_minutes
+    )
+
+
+def create_refresh_token(
+    payload: dict
+) -> str:
+    return create_token(
+        payload=payload,
+        token_type=REFRESH_TOKEN_TYPE,
+        expire_minutes=settings.auth_jwt.refresh_token_expire_minutes
+    )

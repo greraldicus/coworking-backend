@@ -43,5 +43,4 @@ def get_user_by_credentials(
 def get_token_payload(
     token: str = Depends(oauth_2_scheme)
 ) -> dict:
-    print(token)
     return decode_jwt(token)
