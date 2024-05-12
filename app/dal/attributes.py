@@ -1,4 +1,7 @@
+from fastapi import HTTPException, status
+
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
 from app.db_models import Attributes, WorkplaceAttributes
 from app.dependencies import get_model_if_valid_id
@@ -12,7 +15,10 @@ async def get_attribute_model_by_id(db: Session, attr_id: int) -> Attributes:
 
 
 async def create_attribute_value(db: Session, attribute: WorkplaceAttributesCreateSchema) -> WorkplaceAttributes:
-    return await crud_workplace_attributes.create(db=db, object_create_schema=attribute)
+    try:
+        return await crud_workplace_attributes.create(db=db, object_create_schema=attribute)
+    except IntegrityError as err:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err.__repr__())
 
 
 async def create_attribute_value_by_workplace_type_id(db: Session, attribute: AttributeValueByWorkplaceId) -> int:
