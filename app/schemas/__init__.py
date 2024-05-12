@@ -11,5 +11,13 @@ from .attributes_schema import (
     AttributesCreateSchema,
     AttributesUpdateSchema,
     AttributesBaseSchema,
-    AttributesIdentifiedSchema
+    AttributesIdentifiedSchema,
+    AttributeValueByWorkplaceId,
+    WorkplaceAttributesBaseSchema,
+    WorkplaceAttributesCreateSchema,
+    WorkplaceAttributesUpdateSchema,
+    WorkplaceTypeAttributesCreateSchema,
+    WorkplaceTypeAttributesUpdateSchema,
+    WorkplaceTypeAttributesBaseSchema,
+    WorkplaceTypeAttributesIdentifiedSchema
 )

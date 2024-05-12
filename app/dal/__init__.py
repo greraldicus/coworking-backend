@@ -7,4 +7,4 @@ from .persons import (
 )
 from .roles import get_role_model_by_id, get_role_model_by_user_id
 from .users import get_user_model_by_id
-from .attributes import get_attribute_model_by_id
+from .attributes import get_attribute_model_by_id, create_attribute_value_by_workplace_type_id
