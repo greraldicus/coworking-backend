@@ -42,6 +42,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             db.add(db_obj)
             db.flush()
             db.refresh(db_obj)
+            db.commit()
             return db_obj
         except IntegrityError as err:
             raise err
@@ -65,6 +66,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             db.add(db_obj)
             db.flush()
             db.refresh(db_obj)
+            db.commit()
             return db_obj
         except IntegrityError as err:
             raise err

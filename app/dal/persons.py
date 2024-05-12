@@ -25,5 +25,4 @@ async def get_person_with_tenure_schema_by_person_id(db: Session, person_id: int
 
 async def create_person_with_tenure_id(db: Session, person_schema: PersonCreateSchema) -> int:
     person_model = await crud_persons.create(db=db, object_create_schema=person_schema)
-    db.commit()
     return person_model.prsn_id

@@ -20,7 +20,6 @@ async def get_tenure_model_by_person_id(db: Session, person_id: int) -> Tenures:
 
 async def create_tenure(db: Session, tenure_schema: TenureCreateSchema) -> int:
     tenure_model = crud_tenures.create(db=db, object_create_schema=tenure_schema)
-    db.commit()
     return tenure_model.tenr_id
 
 
