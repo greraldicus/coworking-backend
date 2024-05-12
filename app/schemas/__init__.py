@@ -19,5 +19,6 @@ from .attributes_schema import (
     WorkplaceTypeAttributesCreateSchema,
     WorkplaceTypeAttributesUpdateSchema,
     WorkplaceTypeAttributesBaseSchema,
-    WorkplaceTypeAttributesIdentifiedSchema
+    WorkplaceTypeAttributesIdentifiedSchema,
+    AttributeWithValuesSchema
 )

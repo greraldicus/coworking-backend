@@ -1,10 +1,12 @@
+from typing import List
+
 from pydantic import AliasChoices, Field
 
 from .base_schema import BaseSchema
 
 
 class AttributesBaseSchema(BaseSchema):
-    title: str = Field(
+    attr_title: str = Field(
         ...,
         validation_alias=AliasChoices('attr_title', 'title'),
         serialization_alias='title'
@@ -65,3 +67,8 @@ class WorkplaceTypeAttributesCreateSchema(WorkplaceTypeAttributesBaseSchema):
 
 class WorkplaceTypeAttributesUpdateSchema(WorkplaceTypeAttributesIdentifiedSchema):
     pass
+
+
+class AttributeWithValuesSchema(BaseSchema):
+    attr_id: int
+    values: List[str]

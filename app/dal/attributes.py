@@ -1,13 +1,20 @@
-from fastapi import HTTPException, status
+from typing import List
 
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-from app.db_models import Attributes, WorkplaceAttributes
+from app.db_models import Attributes, WorkplaceAttributes, WorkplaceTypeAttributes
 from app.dependencies import get_model_if_valid_id
-from app.schemas import WorkplaceAttributesCreateSchema, AttributeValueByWorkplaceId, WorkplaceTypeAttributesBaseSchema
+from app.schemas import (
+    WorkplaceAttributesCreateSchema,
+    AttributeValueByWorkplaceId,
+    WorkplaceTypeAttributesBaseSchema,
+    AttributeWithValuesSchema
+)
 from .CRUD.CRUD_workplace_attributes import crud_workplace_attributes
 from .CRUD.CRUD_workplace_type_attributes import crud_workplace_type_attributes
+from .workplace_types import get_workplace_types_model_by_id
 
 
 async def get_attribute_model_by_id(db: Session, attr_id: int) -> Attributes:
@@ -36,3 +43,52 @@ async def create_attribute_value_by_workplace_type_id(db: Session, attribute: At
         object_create_schema=workplace_type_attributes_schema
     )
     return workplace_type_attributes_model.wptypeattr_id
+
+
+async def get_workplace_type_attributes_by_wptype_id(db: Session, wptype_id: int) -> List[WorkplaceTypeAttributes]:
+    workplace_type_attributes = (db.query(WorkplaceTypeAttributes)
+                                 .filter(WorkplaceTypeAttributes.wptypeattr_wptype_id == wptype_id)
+                                 .all()
+                                 )
+    return workplace_type_attributes
+
+
+async def get_workplace_attributes_by_wptype_id(db: Session, wptype_id: int) -> List[WorkplaceAttributes]:
+    workplace_attributes: List[WorkplaceAttributes] = []
+
+    workplace_type_attributes = await get_workplace_type_attributes_by_wptype_id(db=db, wptype_id=wptype_id)
+    for workplace_type_attribute in workplace_type_attributes:
+        workplace_attributes.append(db.query(WorkplaceAttributes).get(workplace_type_attribute.wptypeattr_wpattr_id))
+
+    return workplace_attributes
+
+
+# НУЖНО РЕФАТОРИТЬ
+
+async def get_attributes_values_by_wptype_id(db: Session, wptype_id: int) -> List[AttributeWithValuesSchema]:
+    attributes_with_values: List[AttributeWithValuesSchema] = []
+
+    workplace_type_model = await get_workplace_types_model_by_id(db=db, wptype_id=wptype_id)
+    workplace_attributes = await get_workplace_attributes_by_wptype_id(
+        db=db,
+        wptype_id=workplace_type_model.wptype_id
+    )
+
+    workplace_attributes_dict = {}
+
+    for workplace_attribute in workplace_attributes:
+        if workplace_attributes_dict.get(workplace_attribute.wpattr_attr_id) is None:
+            workplace_attributes_dict[workplace_attribute.wpattr_attr_id] = []
+            workplace_attributes_dict[workplace_attribute.wpattr_attr_id].append(workplace_attribute.wpattr_value)
+        else:
+            workplace_attributes_dict[workplace_attribute.wpattr_attr_id].append(workplace_attribute.wpattr_value)
+
+    for attr_id in workplace_attributes_dict.keys():
+        attributes_with_values.append(
+            AttributeWithValuesSchema(
+                attr_id=attr_id,
+                values=workplace_attributes_dict.get(attr_id)
+            )
+        )
+
+    return attributes_with_values
