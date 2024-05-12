@@ -7,3 +7,9 @@ from .persons_schemas import (
 )
 from .users_schemas import UserAuthSchema
 from .roles_schemas import RolesUpdateSchema, RolesCreateSchema
+from .attributes_schema import (
+    AttributesCreateSchema,
+    AttributesUpdateSchema,
+    AttributesBaseSchema,
+    AttributesIdentifiedSchema
+)
