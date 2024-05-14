@@ -1,7 +1,12 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
 
 from app.auth import get_user_by_credentials, create_access_token, create_refresh_token
-from app.auth import JwtSchema
+from app.auth import JwtSchema, ROLE_ADMIN
+from app.schemas.users_schemas import UserCreateSchema
+from app.dal.users import create_user
+from app.db import get_db
+from app.dependencies import get_user_role_by_token_payload
 
 auth_router = APIRouter(prefix="/auth")
 
@@ -20,3 +25,17 @@ async def authenticate_user(
         refresh_token=refresh_token,
         token_type="Bearer"
     )
+
+
+@auth_router.post(
+    path="/register",
+    response_model=int
+)
+async def registrate_user(
+        user_schema: UserCreateSchema,
+        db: Session = Depends(get_db),
+        role: str = Depends(get_user_role_by_token_payload)
+):
+    if role != ROLE_ADMIN:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="forbidden")
+    return await create_user(db=db, user_schema=user_schema)
