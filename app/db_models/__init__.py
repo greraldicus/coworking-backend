@@ -6,3 +6,5 @@ from .attributes import Attributes
 from .workplace_attributes import WorkplaceAttributes
 from .workplace_type_attributes import WorkplaceTypeAttributes
 from .workplace_types import WorkplaceTypes
+from .workplaces import Workplaces
+from .workplace_attributes_intersect import WorkplaceAttributesIntersect

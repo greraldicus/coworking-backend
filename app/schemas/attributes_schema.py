@@ -69,6 +69,13 @@ class WorkplaceTypeAttributesUpdateSchema(WorkplaceTypeAttributesIdentifiedSchem
     pass
 
 
+class AttributeWithValueSchema(BaseSchema):
+    attr_id: int
+    attr_title: str
+    attr_value: str
+
+
 class AttributeWithValuesSchema(BaseSchema):
     attr_id: int
+    attr_title: str
     values: List[str]

@@ -10,5 +10,6 @@ from .users import get_user_model_by_id
 from .attributes import (
     get_attribute_model_by_id,
     create_attribute_value_by_workplace_type_id,
-    get_attributes_values_by_wptype_id
+    get_attributes_values_list_schema_by_wptype_id,
+    get_attribute_with_value_list_schema
 )
