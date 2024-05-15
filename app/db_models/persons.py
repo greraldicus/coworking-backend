@@ -11,6 +11,7 @@ class Persons(Base):
     prsn_name = Column(TEXT, nullable=False)
     prsn_surname = Column(TEXT, nullable=False)
     prsn_patronymic = Column(TEXT)
+    prsn_birth_date = Column(TEXT, nullable=False)
     prsn_tenr_id = Column(Integer, ForeignKey('Tenures.tenr_id'), nullable=False)
 
     prsn_tenr = relationship('Tenures')

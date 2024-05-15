@@ -19,7 +19,8 @@ async def get_person_with_tenure_schema_by_person_id(db: Session, person_id: int
     return PersonWithTenureSchema(
         name=person_model.prsn_name,
         surname=person_model.prsn_surname,
-        tenure=person_tenure.tenr_title
+        date_of_birth=person_model.prsn_birth_date,
+        tenure=person_tenure.tenr_title,
     )
 
 

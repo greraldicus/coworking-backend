@@ -14,6 +14,11 @@ class PersonBaseSchema(BaseSchema):
         validation_alias=AliasChoices('prsn_surname', 'surname'),
         serialization_alias='surname'
     )
+    date_of_birth: str = Field(
+        ...,
+        validation_alias=AliasChoices('prsn_birth_date', 'date_of_birth'),
+        serialization_alias='date_of_birth'
+    )
 
 
 class PersonIdentifiedSchema(PersonBaseSchema):
@@ -36,6 +41,7 @@ class PersonCreateSchema(BaseSchema):
     prsn_name: str
     prsn_surname: str
     prsn_patronymic: str
+    prsn_birth_date: str
     prsn_tenr_id: int
 
     class Config:
