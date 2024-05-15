@@ -49,4 +49,4 @@ class PersonCreateSchema(BaseSchema):
 
 
 class PersonUpdateSchema(PersonCreateSchema):
-    pass
+    prsn_id: int
