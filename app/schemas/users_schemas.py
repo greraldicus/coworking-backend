@@ -15,7 +15,6 @@ class UserCreateSchema(BaseSchema):
     usr_rol_id: int
     usr_login: str
     usr_hashed_password: str
-    
 
     class Config:
         from_attributes = True

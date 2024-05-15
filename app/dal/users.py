@@ -6,6 +6,7 @@ from app.schemas.users_schemas import UserCreateSchema
 
 from .CRUD.CRUD_users import crud_users
 
+
 async def get_user_model_by_id(db: Session, user_id: int) -> Users:
     return await get_model_if_valid_id(db=db, model_type=Users, validating_id=user_id)
 
