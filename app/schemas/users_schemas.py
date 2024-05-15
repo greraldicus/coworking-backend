@@ -26,7 +26,7 @@ class UserUpdateSchema(UserCreateSchema):
 
 
 class RegisterSchema(BaseSchema):
-    prsn_id: int
-    rol_id: int
+    person_id: int
+    role_id: int
     login: str
     password: str

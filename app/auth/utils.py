@@ -6,6 +6,7 @@ from jwt.exceptions import ExpiredSignatureError
 
 from .constants import ACCESS_TOKEN_TYPE, REFRESH_TOKEN_TYPE, TOKEN_TYPE_FIELD
 from app.core import settings
+from app.schemas.users_schemas import RegisterSchema, UserCreateSchema
 
 
 def get_token_expiration(expire_minutes: int) -> datetime:
@@ -77,4 +78,13 @@ def create_refresh_token(
         payload=payload,
         token_type=REFRESH_TOKEN_TYPE,
         expire_minutes=settings.auth_jwt.refresh_token_expire_minutes
+    )
+
+
+def convert_register_to_create_schema(register_schema: RegisterSchema) -> UserCreateSchema:
+    return UserCreateSchema(
+        usr_prsn_id=register_schema.person_id,
+        usr_rol_id=register_schema.role_id,
+        usr_login=register_schema.login,
+        usr_hashed_password=register_schema.password
     )

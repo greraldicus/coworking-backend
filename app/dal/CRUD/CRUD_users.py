@@ -8,6 +8,7 @@ from app.auth.password_hasher import hash_password
 from app.db_models import Users, Persons, Roles
 from app.dependencies import get_model_if_valid_id
 from app.schemas.users_schemas import UserCreateSchema, UserUpdateSchema
+from app.auth import ROLE_ADMIN
 
 
 class CRUD_Users(CRUDBase[Users, UserCreateSchema, UserUpdateSchema]):
@@ -17,12 +18,8 @@ class CRUD_Users(CRUDBase[Users, UserCreateSchema, UserUpdateSchema]):
         if user:
             raise HTTPException(status_code=400, detail="User with this login already exists")
 
+        object_create_schema.usr_hashed_password = hash_password(object_create_schema.usr_hashed_password).decode('utf-8')
 
-        object_create_schema.usr_hashed_password = str(hash_password(object_create_schema.usr_hashed_password))
-
-        if object_create_schema.usr_rol_id == 1:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="forbidden")
-        
         valid_person_model = await get_model_if_valid_id(
             db=db,
             validating_id=object_create_schema.usr_prsn_id,
@@ -33,6 +30,9 @@ class CRUD_Users(CRUDBase[Users, UserCreateSchema, UserUpdateSchema]):
             validating_id=object_create_schema.usr_rol_id,
             model_type=Roles
         )
+
+        if valid_role_model.rol_title == ROLE_ADMIN:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="forbidden")
         
         if valid_person_model and valid_role_model is not None:
             return (CRUDBase[Persons, UserCreateSchema, UserUpdateSchema]
