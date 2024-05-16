@@ -1,5 +1,6 @@
 from typing import Type
 
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from .CRUD_base import CRUDBase
