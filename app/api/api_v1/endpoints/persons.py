@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.db import get_db
 from app.dal import get_person_with_tenure_schema_by_person_id, create_person_with_tenure_id, update_person_info
-from app.schemas import PersonWithTenureSchema, PersonCreateSchema, PersonUpdateSchema, PersonBaseSchema
+from app.schemas import PersonWithTenureSchema, PersonCreateSchema, PersonUpdateSchema
 from app.dependencies import get_user_role_by_token_payload
 from app.auth import ROLE_ADMIN
 

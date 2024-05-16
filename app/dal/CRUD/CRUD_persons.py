@@ -9,7 +9,6 @@ from app.dependencies import get_model_if_valid_id
 from app.schemas import PersonCreateSchema, PersonUpdateSchema
 
 
-
 class CRUD_Persons(CRUDBase[Persons, PersonCreateSchema, PersonUpdateSchema]):
     async def create(self, db: Session, *, object_create_schema: PersonCreateSchema) -> Type[Persons]:
         valid_tenure_model = await get_model_if_valid_id(
@@ -21,5 +20,6 @@ class CRUD_Persons(CRUDBase[Persons, PersonCreateSchema, PersonUpdateSchema]):
         if valid_tenure_model is not None:
             return (CRUDBase[Persons, PersonCreateSchema, PersonUpdateSchema]
                     .create(self=self, db=db, object_create_schema=object_create_schema))
+
 
 crud_persons = CRUD_Persons(Persons)
