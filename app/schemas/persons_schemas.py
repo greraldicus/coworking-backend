@@ -14,6 +14,11 @@ class PersonBaseSchema(BaseSchema):
         validation_alias=AliasChoices('prsn_surname', 'surname'),
         serialization_alias='surname'
     )
+    img_url: str = Field(
+        ...,
+        validation_alias=AliasChoices('prsn_img_url', 'img_url'),
+        serialization_alias='img_url'
+    )
 
 
 class PersonIdentifiedSchema(PersonBaseSchema):
