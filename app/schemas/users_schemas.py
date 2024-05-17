@@ -1,3 +1,5 @@
+from pydantic import Field, AliasChoices
+
 from pydantic import ConfigDict
 
 from .base_schema import BaseSchema
@@ -22,7 +24,11 @@ class UserCreateSchema(BaseSchema):
 
 class UserUpdateSchema(BaseSchema):
     usr_login: str
-    usr_hashed_password: str
+    usr_hashed_password: str = Field(
+        ...,
+        validation_alias=AliasChoices("password", "usr_hashed_password"),
+        alias="password"
+    )
     usr_id: int
 
 
