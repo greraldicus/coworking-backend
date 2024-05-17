@@ -1,9 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.auth import get_user_by_credentials, create_access_token, create_refresh_token, convert_register_to_create_schema
+from app.auth import (
+    get_user_by_credentials,
+    create_access_token,
+    create_refresh_token,
+    convert_register_to_create_schema
+)
 from app.auth import JwtSchema, ROLE_ADMIN
-from app.schemas.users_schemas import RegisterSchema, UserCreateSchema
+from app.schemas.users_schemas import RegisterSchema
 from app.dal.users import create_user
 from app.db import get_db
 from app.dependencies import get_user_role_by_token_payload
@@ -13,13 +18,14 @@ auth_router = APIRouter(prefix="/auth")
 
 @auth_router.post(
     path="/login",
-    response_model=JwtSchema
+    response_model=JwtSchema,
 )
 async def authenticate_user(
-    user: JwtSchema = Depends(get_user_by_credentials)
+    user: JwtSchema = Depends(get_user_by_credentials),
+    db: Session = Depends(get_db)
 ):
-    access_token = create_access_token(user.model_dump())
-    refresh_token = create_refresh_token(user.model_dump())
+    access_token = await create_access_token(payload=user.model_dump(), db=db)
+    refresh_token = await create_refresh_token(payload=user.model_dump(), db=db)
     return JwtSchema(
         access_token=access_token,
         refresh_token=refresh_token,

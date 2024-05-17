@@ -3,8 +3,9 @@ from datetime import timedelta, datetime
 from fastapi import HTTPException, status
 import jwt
 from jwt.exceptions import ExpiredSignatureError
+from sqlalchemy.orm import Session
 
-from .constants import ACCESS_TOKEN_TYPE, REFRESH_TOKEN_TYPE, TOKEN_TYPE_FIELD
+from .constants import ACCESS_TOKEN_TYPE, REFRESH_TOKEN_TYPE, TOKEN_TYPE_FIELD, TOKEN_ROLE_FIELD
 from app.core import settings
 from app.schemas.users_schemas import RegisterSchema, UserCreateSchema
 
@@ -52,32 +53,48 @@ def decode_jwt(
         raise err
 
 
-def create_token(
+async def add_role_to_token_payload(
+    payload: dict,
+    db: Session
+) -> dict:
+    from app.dal import get_role_model_by_user_id
+    role_model = await get_role_model_by_user_id(user_id=payload.get('sub'), db=db)
+    payload[TOKEN_ROLE_FIELD] = role_model.rol_title
+    return payload
+
+
+async def create_token(
     payload: dict,
     token_type: str,
     expire_minutes: int,
+    db: Session
 ) -> str:
     payload[TOKEN_TYPE_FIELD] = token_type
+    payload = await add_role_to_token_payload(payload, db=db)
     return encode_jwt(payload=payload, expire_minutes=expire_minutes)
 
 
-def create_access_token(
-    payload: dict
+async def create_access_token(
+    payload: dict,
+    db: Session
 ) -> str:
-    return create_token(
+    return await create_token(
         payload=payload,
         token_type=ACCESS_TOKEN_TYPE,
-        expire_minutes=settings.auth_jwt.access_token_expire_minutes
+        expire_minutes=settings.auth_jwt.access_token_expire_minutes,
+        db=db
     )
 
 
-def create_refresh_token(
-    payload: dict
+async def create_refresh_token(
+    payload: dict,
+    db: Session
 ) -> str:
-    return create_token(
+    return await create_token(
         payload=payload,
         token_type=REFRESH_TOKEN_TYPE,
-        expire_minutes=settings.auth_jwt.refresh_token_expire_minutes
+        expire_minutes=settings.auth_jwt.refresh_token_expire_minutes,
+        db=db
     )
 
 
