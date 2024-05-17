@@ -8,7 +8,7 @@ from app.dal import (
     update_person_info
 )
 from app.schemas import PersonWithTenureSchema, PersonCreateSchema, PersonUpdateSchema
-from app.dependencies import get_user_role_by_token_payload, validate_user_by_token_payload
+from app.dependencies import get_user_role_by_token_payload, get_person_id_by_token_payload
 from app.auth import ROLE_ADMIN
 
 persons_router = APIRouter()
@@ -34,7 +34,7 @@ async def get_person_endpoint(
 )
 async def get_person_endpoint(
         db: Session = Depends(get_db),
-        person_id: int = Depends(validate_user_by_token_payload)
+        person_id: int = Depends(get_person_id_by_token_payload)
 ):
     return await get_person_with_tenure_schema_by_person_id(db=db, person_id=person_id)
 
