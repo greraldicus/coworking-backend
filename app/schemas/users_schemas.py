@@ -20,7 +20,9 @@ class UserCreateSchema(BaseSchema):
         from_attributes = True
 
 
-class UserUpdateSchema(UserCreateSchema):
+class UserUpdateSchema(BaseSchema):
+    usr_login: str
+    usr_hashed_password: str
     usr_id: int
 
 

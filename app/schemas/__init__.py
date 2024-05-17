@@ -5,7 +5,11 @@ from .persons_schemas import (
     PersonCreateSchema,
     PersonUpdateSchema
 )
-from .users_schemas import UserAuthSchema
+from .users_schemas import (
+    UserAuthSchema,
+    UserUpdateSchema,
+    UserCreateSchema
+)
 from .roles_schemas import RolesUpdateSchema, RolesCreateSchema
 from .attributes_schema import (
     AttributesCreateSchema,
