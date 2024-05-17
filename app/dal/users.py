@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from app.db_models.users import Users
 from app.dependencies import get_model_if_valid_id
-from app.schemas.users_schemas import UserCreateSchema, UserUpdateSchema
+from app.schemas.users_schemas import UserCreateSchema, UserUpdateSchema, UserLastLoginUpdateSchema
 from app.auth.password_hasher import hash_password
 
 from .CRUD.CRUD_users import crud_users
@@ -21,3 +21,8 @@ async def update_user_credentials(db: Session, user_schema: UserUpdateSchema) ->
     user_model = await get_user_model_by_id(db=db, user_id=user_schema.usr_id)
     user_schema.usr_hashed_password = hash_password(user_schema.usr_hashed_password).decode('utf8')
     return crud_users.update(db=db, obj_in=user_schema, db_obj=user_model)
+
+
+async def update_user_last_login_timestamp(db: Session, schema: UserLastLoginUpdateSchema) -> None:
+    user_model = await get_user_model_by_id(db=db, user_id=schema.usr_id)
+    return crud_users.update(db=db, obj_in=schema, db_obj=user_model)

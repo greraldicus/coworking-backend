@@ -8,7 +8,9 @@ from .persons_schemas import (
 from .users_schemas import (
     UserAuthSchema,
     UserUpdateSchema,
-    UserCreateSchema
+    UserCreateSchema,
+    UserLastLoginUpdateSchema,
+    UserCreateWithTimestampsSchema
 )
 from .roles_schemas import RolesUpdateSchema, RolesCreateSchema
 from .attributes_schema import (

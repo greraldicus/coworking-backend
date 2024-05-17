@@ -1,5 +1,6 @@
-from pydantic import Field, AliasChoices
+from datetime import datetime
 
+from pydantic import Field, AliasChoices
 from pydantic import ConfigDict
 
 from .base_schema import BaseSchema
@@ -13,13 +14,31 @@ class UserAuthSchema(BaseSchema):
 
 
 class UserCreateSchema(BaseSchema):
-    usr_prsn_id: int
-    usr_rol_id: int
-    usr_login: str
-    usr_hashed_password: str
+    usr_prsn_id: int = Field(
+        ...,
+        validation_alias=AliasChoices("person_id", "usr_prsn_id"),
+        alias="person_id"
+    )
+    usr_rol_id: int = Field(
+        ...,
+        validation_alias=AliasChoices("role_id", "usr_rol_id"),
+        alias="role_id"
+    )
+    usr_login: str = Field(
+        ...,
+        validation_alias=AliasChoices("login", "usr_login"),
+        alias="login"
+    )
+    usr_hashed_password: str = Field(
+        ...,
+        validation_alias=AliasChoices("password", "usr_hashed_password"),
+        alias="password"
+    )
 
-    class Config:
-        from_attributes = True
+
+class UserCreateWithTimestampsSchema(UserCreateSchema):
+    usr_last_login: str = Field(default='-')
+    usr_created_at: str = Field(default=datetime.utcnow().isoformat())
 
 
 class UserUpdateSchema(BaseSchema):
@@ -36,6 +55,11 @@ class UserUpdateSchema(BaseSchema):
         ...,
         alias="user_id"
     )
+
+
+class UserLastLoginUpdateSchema(BaseSchema):
+    usr_id: int
+    usr_last_login: str
 
 
 class RegisterSchema(BaseSchema):

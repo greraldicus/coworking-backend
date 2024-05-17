@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from .constants import ACCESS_TOKEN_TYPE, REFRESH_TOKEN_TYPE, TOKEN_TYPE_FIELD, TOKEN_ROLE_FIELD
 from app.core import settings
-from app.schemas.users_schemas import RegisterSchema, UserCreateSchema
+from app.schemas.users_schemas import RegisterSchema, UserCreateSchema, UserLastLoginUpdateSchema
 
 
 def get_token_expiration(expire_minutes: int) -> datetime:
@@ -78,6 +78,14 @@ async def create_access_token(
     payload: dict,
     db: Session
 ) -> str:
+    from app.dal import update_user_last_login_timestamp
+    await update_user_last_login_timestamp(
+        db=db,
+        schema=UserLastLoginUpdateSchema(
+            usr_id=payload.get('sub'),
+            usr_last_login=datetime.utcnow().isoformat()
+        )
+    )
     return await create_token(
         payload=payload,
         token_type=ACCESS_TOKEN_TYPE,

@@ -12,6 +12,8 @@ class Users(Base):
     usr_rol_id = Column(Integer, ForeignKey('Roles.rol_id'), nullable=False)
     usr_login = Column(TEXT, nullable=False, unique=True)
     usr_hashed_password = Column(TEXT, nullable=False)
+    usr_last_login = Column(TEXT, nullable=False)
+    usr_created_at = Column(TEXT, nullable=False)
 
     usr_prsn = relationship('Persons')
     usr_rol = relationship('Roles')
