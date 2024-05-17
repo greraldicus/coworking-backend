@@ -14,6 +14,16 @@ class PersonBaseSchema(BaseSchema):
         validation_alias=AliasChoices('prsn_surname', 'surname'),
         serialization_alias='surname'
     )
+    patronymic: str = Field(
+        ...,
+        validation_alias=AliasChoices('prsn_patronymic', 'patronymic'),
+        serialization_alias='patronymic'
+    )
+    date_of_birth: str = Field(
+        ...,
+        validation_alias=AliasChoices('prsn_birth_date', 'date_of_birth'),
+        serialization_alias='date_of_birth'
+    )
     img_url: str = Field(
         ...,
         validation_alias=AliasChoices('prsn_img_url', 'img_url'),
@@ -22,14 +32,14 @@ class PersonBaseSchema(BaseSchema):
 
 
 class PersonIdentifiedSchema(PersonBaseSchema):
-    id: int = Field(
+    prsn_id: int = Field(
         ...,
         validation_alias=AliasChoices('prsn_id', 'id'),
         serialization_alias='id'
     )
 
 
-class PersonWithTenureSchema(PersonBaseSchema):
+class PersonWithTenureSchema(PersonIdentifiedSchema):
     tenure: str = Field(
         ...,
         validation_alias=AliasChoices('tenr_title', 'tenure'),
