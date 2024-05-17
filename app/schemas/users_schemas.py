@@ -23,13 +23,19 @@ class UserCreateSchema(BaseSchema):
 
 
 class UserUpdateSchema(BaseSchema):
-    usr_login: str
+    usr_login: str = Field(
+        ...,
+        alias="login"
+    )
     usr_hashed_password: str = Field(
         ...,
         validation_alias=AliasChoices("password", "usr_hashed_password"),
         alias="password"
     )
-    usr_id: int
+    usr_id: int = Field(
+        ...,
+        alias="user_id"
+    )
 
 
 class RegisterSchema(BaseSchema):
