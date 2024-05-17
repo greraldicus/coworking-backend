@@ -67,3 +67,11 @@ class RegisterSchema(BaseSchema):
     role_id: int
     login: str
     password: str
+
+
+class UserAccountSchema(BaseSchema):
+    user_id: int
+    login: str
+    role: str
+    created_at: str
+    last_login: str

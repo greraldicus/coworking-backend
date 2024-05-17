@@ -8,7 +8,13 @@ from .persons import (
     get_all_persons_with_tenure_schemas
 )
 from .roles import get_role_model_by_id, get_role_model_by_user_id
-from .users import get_user_model_by_id, update_user_credentials, update_user_last_login_timestamp
+from .users import (
+    get_user_model_by_id,
+    update_user_credentials,
+    update_user_last_login_timestamp,
+    get_accounts_schemas_by_person_id,
+    get_user_models_by_person_id
+)
 from .attributes import (
     get_attribute_model_by_id,
     create_attribute_value_by_workplace_type_id,
