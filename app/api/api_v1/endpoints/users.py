@@ -12,7 +12,7 @@ from app.dal import update_user_credentials, get_accounts_schemas_by_person_id
 users_router = APIRouter(prefix="/users")
 
 
-@users_router.put(
+@users_router.patch(
     path="/update_user_credentials"
 )
 async def update_user_credentials_endpoint(
