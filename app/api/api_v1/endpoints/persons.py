@@ -2,9 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.db import get_db
-from app.dal import get_person_with_tenure_schema_by_person_id, create_person_with_tenure_id, update_person_info
+from app.dal import (
+    get_person_with_tenure_schema_by_person_id,
+    create_person_with_tenure_id,
+    update_person_info
+)
 from app.schemas import PersonWithTenureSchema, PersonCreateSchema, PersonUpdateSchema
-from app.dependencies import get_user_role_by_token_payload
+from app.dependencies import get_user_role_by_token_payload, validate_user_by_token_payload
 from app.auth import ROLE_ADMIN
 
 persons_router = APIRouter()
@@ -21,6 +25,17 @@ async def get_person_endpoint(
 ):
     if role != ROLE_ADMIN:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="forbidden")
+    return await get_person_with_tenure_schema_by_person_id(db=db, person_id=person_id)
+
+
+@persons_router.get(
+    path="/me",
+    response_model=PersonWithTenureSchema
+)
+async def get_person_endpoint(
+        db: Session = Depends(get_db),
+        person_id: int = Depends(validate_user_by_token_payload)
+):
     return await get_person_with_tenure_schema_by_person_id(db=db, person_id=person_id)
 
 
