@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.db_models import Persons, Tenures
 from app.dependencies import get_model_if_valid_id
 from .tenures import get_tenure_model_by_person_id
-from app.schemas import PersonWithTenureSchema, PersonCreateSchema, PersonUpdateSchema
+from app.schemas import PersonWithTenureSchema, PersonCreateSchema, PersonUpdateSchema, TenureIdentifiedSchema
 
 from .CRUD.CRUD_persons import crud_persons
 
@@ -28,7 +28,10 @@ async def get_person_with_tenure_schema_by_person_id(db: Session, person_id: int
         surname=person_model.prsn_surname,
         patronymic=person_model.prsn_patronymic,
         date_of_birth=person_model.prsn_birth_date,
-        tenure=person_tenure.tenr_title,
+        tenure=TenureIdentifiedSchema(
+            tenr_id=person_tenure.tenr_id,
+            tenr_title=person_tenure.tenr_title
+        ),
         img_url=person_model.prsn_img_url
     )
 
@@ -46,7 +49,10 @@ async def get_all_persons_with_tenure_schemas(db: Session) -> List[PersonWithTen
                 surname=person_model.prsn_surname,
                 patronymic=person_model.prsn_patronymic,
                 date_of_birth=person_model.prsn_birth_date,
-                tenure=tenure_model.tenr_title,
+                tenure=TenureIdentifiedSchema(
+                    tenr_id=tenure_model.tenr_id,
+                    tenr_title=tenure_model.tenr_title
+                ),
                 img_url=person_model.prsn_img_url
             )
         )

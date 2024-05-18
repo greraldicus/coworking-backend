@@ -1,6 +1,7 @@
 from pydantic import Field, AliasChoices
 
 from .base_schema import BaseSchema
+from .tenures_schemas import TenureIdentifiedSchema
 
 
 class PersonBaseSchema(BaseSchema):
@@ -40,7 +41,7 @@ class PersonIdentifiedSchema(PersonBaseSchema):
 
 
 class PersonWithTenureSchema(PersonIdentifiedSchema):
-    tenure: str = Field(
+    tenure: TenureIdentifiedSchema = Field(
         ...,
         validation_alias=AliasChoices('tenr_title', 'tenure'),
         serialization_alias='tenure'
