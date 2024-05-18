@@ -1,4 +1,9 @@
-from .tenures import get_tenure_model_by_id, create_tenure, get_tenure_base_schema_by_id
+from .tenures import (
+    get_tenure_model_by_id,
+    create_tenure,
+    get_tenure_base_schema_by_id,
+    get_tenures_filtered
+)
 from .persons import (
     get_tenure_model_by_person_id,
     get_person_model_by_id,

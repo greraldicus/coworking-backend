@@ -5,6 +5,10 @@ class TenureBaseSchema(BaseSchema):
     tenr_title: str
 
 
+class TenureIdentifiedSchema(TenureBaseSchema):
+    tenr_id: int
+
+
 class TenureCreateSchema(TenureBaseSchema):
     pass
 

@@ -37,3 +37,9 @@ from .workplace_attributes_intersect_schemas import (
     WorkplaceAttributesIntersectBaseSchema,
     WorkplaceAttributesIntersectUpdateSchema
 )
+from .tenures_schemas import (
+    TenureIdentifiedSchema,
+    TenureBaseSchema,
+    TenureCreateSchema,
+    TenureUpdateSchema
+)
