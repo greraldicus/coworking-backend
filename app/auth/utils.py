@@ -108,8 +108,8 @@ async def create_refresh_token(
 
 def convert_register_to_create_schema(register_schema: RegisterSchema) -> UserCreateSchema:
     return UserCreateSchema(
-        usr_prsn_id=register_schema.person_id,
-        usr_rol_id=register_schema.role_id,
-        usr_login=register_schema.login,
-        usr_hashed_password=register_schema.password
+        person_id=register_schema.person_id,
+        role_id=register_schema.role_id,
+        login=register_schema.login,
+        password=register_schema.password
     )

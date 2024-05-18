@@ -1,5 +1,6 @@
 from typing import List
 
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.db_models.users import Users
@@ -14,12 +15,22 @@ async def get_user_model_by_id(db: Session, user_id: int) -> Users:
     return await get_model_if_valid_id(db=db, model_type=Users, validating_id=user_id)
 
 
+async def is_user_login_unique(db: Session, login: str) -> bool:
+    users_models = db.query(Users).filter(Users.usr_login == login).all()
+    return users_models is None
+
+
 async def create_user(db: Session, user_schema: UserCreateSchema) -> Users:
     user_model = await crud_users.create(db=db, object_create_schema=user_schema)
     return user_model.usr_id
 
 
 async def update_user_credentials(db: Session, user_schema: UserUpdateSchema) -> None:
+    if not await is_user_login_unique(db=db, login=user_schema.usr_login):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Login already in use"
+        )
     user_model = await get_user_model_by_id(db=db, user_id=user_schema.usr_id)
     user_schema.usr_hashed_password = hash_password(user_schema.usr_hashed_password).decode('utf8')
     return crud_users.update(db=db, obj_in=user_schema, db_obj=user_model)
