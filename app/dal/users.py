@@ -17,7 +17,7 @@ async def get_user_model_by_id(db: Session, user_id: int) -> Users:
 
 async def is_user_login_unique(db: Session, login: str) -> bool:
     users_models = db.query(Users).filter(Users.usr_login == login).all()
-    return users_models is None
+    return len(users_models) <= 1
 
 
 async def create_user(db: Session, user_schema: UserCreateSchema) -> Users:
