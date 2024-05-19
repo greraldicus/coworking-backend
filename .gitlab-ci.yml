@@ -14,7 +14,7 @@ delivery:
 deploy:
   script:
     - chmod 600 $SSH_KEY
-    - ssh -t -o StrictHostKeyChecking=no -i $SSH_KEY -p 41254 root@46.39.238.253 'docker kill test || true && docker rm test || true && docker pull baretskiy.ru:5050/alexvilno/coworking-backend && docker run --name test -d -p 8085:8085 --restart=on-failure baretskiy.ru:5050/alexvilno/coworking-backend'
+    - ssh -t -o StrictHostKeyChecking=no -i $SSH_KEY -p 41254 root@46.39.238.253 'docker kill test || true && docker rm test || true && docker pull baretskiy.ru:5050/alexvilno/coworking-backend && docker run --memory=8g --memory-swap=16g --name test -d -p 8085:8085 --restart=on-failure baretskiy.ru:5050/alexvilno/coworking-backend'
     - ssh -t -o StrictHostKeyChecking=no -i $SSH_KEY -p 41254 root@46.39.238.253 'docker image prune -a --force --filter "until=1h"'
   only:
     - main
