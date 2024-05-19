@@ -14,6 +14,7 @@ class AuthJWT(BaseModel):
 
 class Settings(BaseModel):
     auth_jwt: AuthJWT = AuthJWT()
+    static_dir: Path = BASE_DIR.joinpath("static")
 
 
 settings = Settings()
