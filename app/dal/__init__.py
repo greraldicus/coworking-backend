@@ -27,5 +27,6 @@ from .attributes import (
     get_attribute_with_value_list_schema
 )
 from .workplaces import (
-    get_workplaces_with_type_schemas
+    get_workplaces_with_type_schemas,
+    get_workplace_info_schema
 )

@@ -8,7 +8,8 @@ from app.dal import (
     create_attribute_value_by_workplace_type_id,
     get_attributes_values_list_schema_by_wptype_id,
     get_attribute_with_value_list_schema,
-    get_workplaces_with_type_schemas
+    get_workplaces_with_type_schemas,
+    get_workplace_info_schema
 )
 from app.db import get_db
 from app.schemas import (
@@ -16,7 +17,8 @@ from app.schemas import (
     AttributeValueByWorkplaceId,
     AttributeWithValueSchema,
     AttributeWithValuesSchema,
-    WorkplaceWithTypeSchema
+    WorkplaceWithTypeSchema,
+    WorkplaceInfoSchema
 )
 
 workplaces_router = APIRouter()
@@ -74,3 +76,14 @@ async def get_workplaces_endpoint(
     db: Session = Depends(get_db)
 ):
     return await get_workplaces_with_type_schemas(db=db)
+
+
+@workplaces_router.get(
+    path="/get_workplace_info",
+    response_model=WorkplaceInfoSchema
+)
+async def get_workplace_info_endpoint(
+    wp_id: int,
+    db: Session = Depends(get_db)
+):
+    return await get_workplace_info_schema(db=db, wp_id=wp_id)

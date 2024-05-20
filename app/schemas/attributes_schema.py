@@ -73,6 +73,7 @@ class AttributeWithValueSchema(BaseSchema):
     attr_id: int
     attr_title: str
     attr_value: str
+    attr_icon_url: str
 
 
 class AttributeWithValuesSchema(BaseSchema):

@@ -8,3 +8,5 @@ class Attributes(Base):
 
     attr_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     attr_title = Column(TEXT, nullable=False, unique=True)
+    attr_icon_url = Column(TEXT, nullable=False)
+    

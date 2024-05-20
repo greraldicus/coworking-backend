@@ -28,9 +28,14 @@ from .attributes_schema import (
     WorkplaceTypeAttributesBaseSchema,
     WorkplaceTypeAttributesIdentifiedSchema,
     AttributeWithValueSchema,
-    AttributeWithValuesSchema,
+    AttributeWithValuesSchema
 )
-from .workplaces import WorkplaceIdentifiedSchema, WorkplaceBaseSchema, WorkplaceWithTypeSchema
+from .workplaces import (
+    WorkplaceIdentifiedSchema,
+    WorkplaceBaseSchema,
+    WorkplaceWithTypeSchema,
+    WorkplaceInfoSchema
+)
 from .workplace_attributes_intersect_schemas import (
     WorkplaceAttributesIntersectCreateSchema,
     WorkplaceAttributesIntersectIdentifiedSchema,
