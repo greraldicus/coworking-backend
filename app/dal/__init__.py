@@ -26,3 +26,6 @@ from .attributes import (
     get_attributes_values_list_schema_by_wptype_id,
     get_attribute_with_value_list_schema
 )
+from .workplaces import (
+    get_workplaces_with_type_schemas
+)

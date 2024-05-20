@@ -1,4 +1,5 @@
 from .base_schema import BaseSchema
+from .workplace_types import WorkplaceTypeIdentifiedSchema
 
 from pydantic import Field, AliasChoices
 
@@ -13,3 +14,7 @@ class WorkplaceBaseSchema(BaseSchema):
 
 class WorkplaceIdentifiedSchema(WorkplaceBaseSchema):
     wp_id: int
+
+
+class WorkplaceWithTypeSchema(WorkplaceIdentifiedSchema):
+    type: WorkplaceTypeIdentifiedSchema

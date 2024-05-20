@@ -28,9 +28,9 @@ from .attributes_schema import (
     WorkplaceTypeAttributesBaseSchema,
     WorkplaceTypeAttributesIdentifiedSchema,
     AttributeWithValueSchema,
-    AttributeWithValuesSchema
+    AttributeWithValuesSchema,
 )
-from .workplaces import WorkplaceIdentifiedSchema, WorkplaceBaseSchema
+from .workplaces import WorkplaceIdentifiedSchema, WorkplaceBaseSchema, WorkplaceWithTypeSchema
 from .workplace_attributes_intersect_schemas import (
     WorkplaceAttributesIntersectCreateSchema,
     WorkplaceAttributesIntersectIdentifiedSchema,
@@ -42,4 +42,8 @@ from .tenures_schemas import (
     TenureBaseSchema,
     TenureCreateSchema,
     TenureUpdateSchema
+)
+from .workplace_types import (
+    WorkplaceTypeIdentifiedSchema,
+    WorkplaceTypeBaseSchema
 )
