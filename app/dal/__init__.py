@@ -19,7 +19,8 @@ from .users import (
     update_user_credentials,
     update_user_last_login_timestamp,
     get_accounts_schemas_by_person_id,
-    get_user_models_by_person_id
+    get_user_models_by_person_id,
+    delete_user_by_id
 )
 from .attributes import (
     get_attribute_model_by_id,

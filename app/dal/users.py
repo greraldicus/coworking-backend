@@ -68,3 +68,8 @@ async def get_accounts_schemas_by_person_id(db: Session, person_id: int) -> List
         )
 
     return accounts_schema_list
+
+
+async def delete_user_by_id(db: Session, user_id: int) -> None:
+    valid_user_model = await get_user_model_by_id(db=db, user_id=user_id)
+    crud_users.remove(db=db, entity_id=valid_user_model.usr_id)
