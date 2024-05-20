@@ -9,6 +9,7 @@ class Workplaces(Base):
 
     wp_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     wp_address = Column(TEXT, nullable=False, unique=True)
+    wp_img_url = Column(TEXT, nullable=False)
     wp_wptype_id = Column(Integer, ForeignKey("WorkplaceTypes.wptype_id"), nullable=False)
 
     wp_wptype = relationship("WorkplaceTypes")

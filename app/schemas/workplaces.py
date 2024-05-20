@@ -24,7 +24,8 @@ class WorkplaceWithTypeSchema(WorkplaceIdentifiedSchema):
 
 
 class WorkplaceInfoSchema(BaseSchema):
-    wp_id: int
-    wp_address: str
+    id: int
+    address: str
+    img_url: str
     type: WorkplaceTypeIdentifiedSchema
     attributes: List[AttributeWithValueSchema]
