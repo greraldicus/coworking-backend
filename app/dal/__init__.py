@@ -30,3 +30,4 @@ from .workplaces import (
     get_workplaces_with_type_schemas,
     get_workplace_info_schema
 )
+from .files import upload_file

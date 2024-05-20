@@ -52,3 +52,4 @@ from .workplace_types import (
     WorkplaceTypeIdentifiedSchema,
     WorkplaceTypeBaseSchema
 )
+from .files import FileInfoSchema
