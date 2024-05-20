@@ -82,6 +82,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             obj = db.query(self.model).get(entity_id)
             db.delete(obj)
             db.flush()
+            db.commit()
             return obj
         except IntegrityError as err:
             raise err

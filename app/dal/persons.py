@@ -74,3 +74,8 @@ async def update_person_info(db: Session, person_schema: PersonUpdateSchema) -> 
     person_model = await get_person_model_by_id(db=db, person_id=person_schema.prsn_id)
     if valid_tenure_model is not None:
         crud_persons.update(db=db, db_obj=person_model, obj_in=person_schema)
+
+
+async def delete_person_by_person_id(db: Session, person_id: int) -> None:
+    valid_person_model = await get_person_model_by_id(db=db, person_id=person_id)
+    crud_persons.remove(db=db, entity_id=valid_person_model.prsn_id)

@@ -8,7 +8,8 @@ from app.dal import (
     get_person_with_tenure_schema_by_person_id,
     get_all_persons_with_tenure_schemas,
     create_person_with_tenure_id,
-    update_person_info
+    update_person_info,
+    delete_person_by_person_id
 )
 from app.schemas import PersonWithTenureSchema, PersonCreateSchema, PersonUpdateSchema
 from app.dependencies import get_user_role_by_token_payload, get_person_id_by_token_payload
@@ -81,3 +82,16 @@ async def update_person_endpoint(
     if role != ROLE_ADMIN:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="forbidden")
     return await update_person_info(db=db, person_schema=person_schema)
+
+
+@persons_router.delete(
+    path="/delete_person"
+)
+async def delete_person_endpoint(
+        person_id: int,
+        db: Session = Depends(get_db),
+        role: str = Depends(get_user_role_by_token_payload)
+):
+    if role != ROLE_ADMIN:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="forbidden")
+    return await delete_person_by_person_id(db=db, person_id=person_id)
