@@ -36,8 +36,8 @@ async def get_workplaces_with_type_schemas(db: Session) -> List[WorkplaceWithTyp
         type_model = await get_workplace_types_model_by_id(db=db, wptype_id=workplace_model.wp_wptype_id)
         workplace_schemas.append(
             WorkplaceWithTypeSchema(
-                wp_id=workplace_model.id,
-                wp_address=workplace_model.address,
+                wp_id=workplace_model.wp_id,
+                wp_address=workplace_model.wp_address,
                 type=WorkplaceTypeIdentifiedSchema(
                     wptype_id=type_model.wptype_id,
                     wptype_title=type_model.wptype_title
