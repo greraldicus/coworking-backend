@@ -8,7 +8,7 @@ from app.dependencies import get_model_if_valid_id
 from app.schemas import WorkplaceAttributesCreateSchema, WorkplaceAttributesUpdateSchema
 
 
-class CRUD_Persons(CRUDBase[WorkplaceAttributes, WorkplaceAttributesCreateSchema, WorkplaceAttributesUpdateSchema]):
+class CRUD_WorkplaceAttribute(CRUDBase[WorkplaceAttributes, WorkplaceAttributesCreateSchema, WorkplaceAttributesUpdateSchema]):
     async def create(
         self,
         db: Session,
@@ -26,4 +26,4 @@ class CRUD_Persons(CRUDBase[WorkplaceAttributes, WorkplaceAttributesCreateSchema
                     .create(self=self, db=db, object_create_schema=object_create_schema))
 
 
-crud_workplace_attributes = CRUD_Persons(WorkplaceAttributes)
+crud_workplace_attributes = CRUD_WorkplaceAttribute(WorkplaceAttributes)
