@@ -30,6 +30,7 @@ from .attributes import (
 )
 from .workplaces import (
     get_workplaces_with_type_schemas,
-    get_workplace_info_schema
+    get_workplace_info_schema,
+    create_workplace_with_attributes
 )
 from .files import upload_file

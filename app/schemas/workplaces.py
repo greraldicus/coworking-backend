@@ -1,5 +1,7 @@
 from typing import List
 
+from app.db_models import workplace_attributes
+
 from .base_schema import BaseSchema
 from .workplace_types import WorkplaceTypeIdentifiedSchema
 from .attributes_schema import AttributeWithValueSchema
@@ -29,3 +31,18 @@ class WorkplaceInfoSchema(BaseSchema):
     img_url: str
     type: WorkplaceTypeIdentifiedSchema
     attributes: List[AttributeWithValueSchema]
+
+
+class WorkplaceCreateSchema(BaseSchema):
+    wp_address: str
+    wp_img_url: str
+    wp_wptype_id: int
+
+
+class WorkplaceUpdateSchema(WorkplaceCreateSchema):
+    wp_id: int
+
+
+class WorkplaceWithAttributesSchema(WorkplaceCreateSchema):
+    wp_attributes_id: List[int]
+    
