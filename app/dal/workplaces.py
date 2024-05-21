@@ -3,6 +3,7 @@ from typing import List
 from sqlalchemy.orm import Session
 
 from app.db_models import Workplaces, WorkplaceAttributesIntersect
+from app.db_models.workplace_type_attributes import WorkplaceTypeAttributes
 from app.dependencies import get_model_if_valid_id
 from app.schemas import (
     WorkplaceWithTypeSchema,
@@ -87,9 +88,13 @@ async def get_workplace_info_schema(db: Session, wp_id: int) -> WorkplaceInfoSch
     return workplace_info_schema
 
 
-async def create_workplace(db: Session, workplace_create_schema: WorkplaceCreateSchema) -> int:
+async def get_workplace_type_attributes_by_id(db: Session, wptypeattr_id: int) -> WorkplaceTypeAttributes:
+    return await get_model_if_valid_id(db=db, model_type=WorkplaceTypeAttributes, validating_id=wptypeattr_id)
+    
+
+async def create_workplace(db: Session, workplace_create_schema: WorkplaceCreateSchema) -> Workplaces:
     workplace_model = await crud_workplaces.create(db=db, object_create_schema=workplace_create_schema)
-    return workplace_model.wp_id
+    return workplace_model
 
 
 async def create_workplace_intersect(db: Session, wp_int_schema: WorkplaceAttributesIntersectCreateSchema) -> int:
@@ -115,4 +120,13 @@ async def create_workplace_with_attributes(db: Session, create_schema: Workplace
         )
     )
     
-    wp_type_attr_model = await create_workplace_type_attributes(db=db, create_schema=WorkplaceTypeAttributesCreateSchema())
+    for wptypeattr_id in create_schema.wp_attributes_id:
+        wptypeattr_model = await get_workplace_type_attributes_by_id(db=db, wptypeattr_id=wptypeattr_id)
+        await create_workplace_intersect(
+            db=db,
+            wp_int_schema=WorkplaceAttributesIntersectCreateSchema(
+                wptypeattr_wp_wp_id=workplace_model.wp_id,
+                wptypeattr_wp_wptypeattr_id=wptypeattr_model.wptypeattr_id
+            )
+        )  
+    return workplace_model.wp_id

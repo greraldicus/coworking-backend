@@ -80,9 +80,3 @@ class AttributeWithValuesSchema(BaseSchema):
     attr_id: int
     attr_title: str
     values: List[str]
-
-
-class AttributeNoIdSchema:
-    attr_icon_url: str
-    attr_title: str
-    attr_value: str

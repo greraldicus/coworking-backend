@@ -53,6 +53,8 @@ from .tenures_schemas import (
 )
 from .workplace_types import (
     WorkplaceTypeIdentifiedSchema,
-    WorkplaceTypeBaseSchema
+    WorkplaceTypeBaseSchema,
+    WorkplaceTypeCreateSchema, 
+    WorkplaceTypeUpdateSchema
 )
 from .files import FileInfoSchema

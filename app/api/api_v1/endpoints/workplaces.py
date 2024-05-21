@@ -11,6 +11,7 @@ from app.dal import (
     get_workplaces_with_type_schemas,
     get_workplace_info_schema
 )
+from app.dal.workplaces import create_workplace_with_attributes
 from app.db import get_db
 from app.schemas import (
     AttributesIdentifiedSchema,
@@ -98,4 +99,5 @@ async def create_workplace_with_attributes_endpoint(
     create_schema: WorkplaceWithAttributesSchema,
     db: Session = Depends(get_db)
 ):
+    return await create_workplace_with_attributes(db=db,create_schema=create_schema)
     

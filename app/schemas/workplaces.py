@@ -43,4 +43,5 @@ class WorkplaceUpdateSchema(WorkplaceCreateSchema):
 
 
 class WorkplaceWithAttributesSchema(WorkplaceCreateSchema):
-    wp_attributes: AttributeNoIdSchema
+    wp_attributes_id: List[int]
+    
