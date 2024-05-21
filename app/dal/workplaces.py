@@ -116,7 +116,7 @@ async def create_workplace_with_attributes(db: Session, create_schema: Workplace
         workplace_create_schema=WorkplaceCreateSchema(
             wp_address=create_schema.wp_address,
             wp_img_url=create_schema.wp_img_url,
-            wp_type=create_schema.wp_type
+            wp_wptype_id=create_schema.wp_wptype_id
         )
     )
     

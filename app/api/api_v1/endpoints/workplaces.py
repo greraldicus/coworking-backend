@@ -92,12 +92,12 @@ async def get_workplace_info_endpoint(
 
 
 @workplaces_router.post(
-    path="create_workplace",
+    path="/create_workplace",
     response_model=int
 )
 async def create_workplace_with_attributes_endpoint(
     create_schema: WorkplaceWithAttributesSchema,
     db: Session = Depends(get_db)
 ):
-    return await create_workplace_with_attributes(db=db,create_schema=create_schema)
+    return await create_workplace_with_attributes(db=db, create_schema=create_schema)
     

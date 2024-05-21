@@ -4,7 +4,7 @@ from app.db_models import workplace_attributes
 
 from .base_schema import BaseSchema
 from .workplace_types import WorkplaceTypeIdentifiedSchema
-from .attributes_schema import AttributeWithValueSchema, AttributeNoIdSchema
+from .attributes_schema import AttributeWithValueSchema
 
 from pydantic import Field, AliasChoices
 
@@ -36,7 +36,8 @@ class WorkplaceInfoSchema(BaseSchema):
 class WorkplaceCreateSchema(BaseSchema):
     wp_address: str
     wp_img_url: str
-    wp_type: WorkplaceTypeIdentifiedSchema
+    wp_wptype_id: int
+
 
 class WorkplaceUpdateSchema(WorkplaceCreateSchema):
     wp_id: int

@@ -20,7 +20,7 @@ class CRUD_Workplaces(CRUDBase[Workplaces, WorkplaceCreateSchema, WorkplaceUpdat
         valid_type_model = await get_model_if_valid_id(
             db=db,
             model_type=WorkplaceTypes,
-            validating_id=object_create_schema.wp_type.wptype_id
+            validating_id=object_create_schema.wp_wptype_id
         )
         if valid_type_model is not None:
             return (
