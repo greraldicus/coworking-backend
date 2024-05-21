@@ -2,6 +2,7 @@ from typing import List
 
 from sqlalchemy.orm import Session
 
+from app.dal.CRUD import CRUD_workplace_type_attributes
 from app.db_models import Workplaces, WorkplaceAttributesIntersect
 from app.dependencies import get_model_if_valid_id
 from app.schemas import (
@@ -9,14 +10,17 @@ from app.schemas import (
     WorkplaceTypeIdentifiedSchema,
     WorkplaceInfoSchema,
     AttributeWithValueSchema,
-    WorkplaceAttributesIntersectCreateSchema
+    WorkplaceAttributesIntersectCreateSchema,
+    WorkplaceWithAttributesSchema
 )
+from app.schemas.attributes_schema import WorkplaceTypeAttributesCreateSchema
 from app.schemas.workplaces import WorkplaceCreateSchema
 
 from .workplace_types import get_workplace_types_model_by_id
 
 from .CRUD.CRUD_workplaces import crud_workplaces
 from .CRUD.CRUD_workplace_attributes_intersect import crud_wp_intersect
+from .CRUD.CRUD_workplace_type_attributes import crud_workplace_type_attributes
 
 
 async def get_workplace_model_by_id(db: Session, wp_id: int) -> Workplaces:
@@ -89,4 +93,21 @@ async def create_workplace(db: Session, workplace_create_schema: WorkplaceCreate
     return workplace_model.wp_id
 
 async def create_workplace_intersect(db: Session, wp_int_schema: WorkplaceAttributesIntersectCreateSchema) -> int:
-    wp_int_model = await crud_wp_intersect
+    wp_int_model = await crud_wp_intersect.create(db=db, object_create_schema=wp_int_schema)
+    return wp_int_model.wptypeattr_wp_wptypeattr_id
+
+async def create_workplace_type_attributes(db: Session, wp_type_attr_schema: WorkplaceTypeAttributesCreateSchema) -> int:
+    wp_type_attr_model = await crud_workplace_type_attributes.create(db=db, object_create_schema=wp_type_attr_schema)
+    return wp_type_attr_model.wptypeattr_id
+
+async def create_workplace_with_attributes(db: Session, create_schema = WorkplaceWithAttributesSchema):
+    workplace_model = await create_workplace(
+        db=db,
+        workplace_create_schema=WorkplaceCreateSchema(
+            wp_address=create_schema.wp_address,
+            wp_img_url=create_schema.wp_img_url,
+            wp_type=create_schema.wp_type
+        )
+    )
+    
+    wp_type_attr_model = await create_workplace_type_attributes(db=db, create_schema=WorkplaceTypeAttributesCreateSchema())

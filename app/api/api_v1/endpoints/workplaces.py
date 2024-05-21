@@ -18,7 +18,8 @@ from app.schemas import (
     AttributeWithValueSchema,
     AttributeWithValuesSchema,
     WorkplaceWithTypeSchema,
-    WorkplaceInfoSchema
+    WorkplaceInfoSchema,
+    WorkplaceWithAttributesSchema
 )
 
 workplaces_router = APIRouter()
@@ -87,3 +88,14 @@ async def get_workplace_info_endpoint(
     db: Session = Depends(get_db)
 ):
     return await get_workplace_info_schema(db=db, wp_id=wp_id)
+
+
+@workplaces_router.post(
+    path="create_workplace",
+    response_model=int
+)
+async def create_workplace_with_attributes_endpoint(
+    create_schema: WorkplaceWithAttributesSchema,
+    db: Session = Depends(get_db)
+):
+    
