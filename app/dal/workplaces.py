@@ -8,10 +8,15 @@ from app.schemas import (
     WorkplaceWithTypeSchema,
     WorkplaceTypeIdentifiedSchema,
     WorkplaceInfoSchema,
-    AttributeWithValueSchema
+    AttributeWithValueSchema,
+    WorkplaceAttributesIntersectCreateSchema
 )
+from app.schemas.workplaces import WorkplaceCreateSchema
 
 from .workplace_types import get_workplace_types_model_by_id
+
+from .CRUD.CRUD_workplaces import crud_workplaces
+from .CRUD.CRUD_workplace_attributes_intersect import crud_wp_intersect
 
 
 async def get_workplace_model_by_id(db: Session, wp_id: int) -> Workplaces:
@@ -77,3 +82,11 @@ async def get_workplace_info_schema(db: Session, wp_id: int) -> WorkplaceInfoSch
         )
 
     return workplace_info_schema
+
+
+async def create_workplace(db: Session, workplace_create_schema: WorkplaceCreateSchema) -> int:
+    workplace_model = await crud_workplaces.create(db=db, object_create_schema=workplace_create_schema)
+    return workplace_model.wp_id
+
+async def create_workplace_intersect(db: Session, wp_int_schema: WorkplaceAttributesIntersectCreateSchema) -> int:
+    wp_int_model = await crud_wp_intersect
