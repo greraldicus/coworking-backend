@@ -11,7 +11,6 @@ from app.dal import (
     create_attribute_value_by_workplace_type_id,
     get_attributes_values_list_schema_by_wptype_id,
     get_attribute_with_value_list_schema,
-    get_workplaces_with_type_schemas,
     get_workplace_info_schema,
     delete_workplace_by_id,
     delete_attribute_intersect_by_id

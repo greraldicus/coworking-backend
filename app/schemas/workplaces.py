@@ -39,6 +39,7 @@ class WorkplaceCreateSchema(BaseSchema):
     wp_address: str
     wp_img_url: str
     wp_wptype_id: int
+    wp_of_id: int
 
 
 class WorkplaceUpdateSchema(WorkplaceCreateSchema):
