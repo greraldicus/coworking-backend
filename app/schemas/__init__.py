@@ -59,3 +59,7 @@ from .workplace_types import (
 )
 from .files import FileInfoSchema
 from .offices import OfficeBaseSchema, OfficeIdentifiedSchema
+from .maps_schemas import (
+    MapBaseSchema,
+    MapIdentifiedSchema
+)
