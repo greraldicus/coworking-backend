@@ -37,3 +37,7 @@ from .workplaces import (
 )
 from .files import upload_file
 from .offices import get_office_model_by_id
+from .maps import (
+    get_maps_schemas_by_office_id,
+    get_maps_models_by_office_id
+)
