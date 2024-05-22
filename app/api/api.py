@@ -5,6 +5,7 @@ from .api_v1.endpoints import (
     workplaces_router,
     users_router,
     files_router,
+    maps_router
     offices_router
 )
 
@@ -18,4 +19,5 @@ api_v1_router.include_router(tenures_router, tags=["Tenures"])
 api_v1_router.include_router(workplaces_router, tags=["Workplaces"])
 api_v1_router.include_router(users_router, tags=["Users"])
 api_v1_router.include_router(files_router, tags=["Files"])
+api_v1_router.include_router(maps_router, tags=["Maps"])
 api_v1_router.include_router(offices_router, tags=["Offices"])
