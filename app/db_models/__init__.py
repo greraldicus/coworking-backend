@@ -8,3 +8,6 @@ from .workplace_type_attributes import WorkplaceTypeAttributes
 from .workplace_types import WorkplaceTypes
 from .workplaces import Workplaces
 from .workplace_attributes_intersect import WorkplaceAttributesIntersect
+from .offices import Offices
+from .office_person_intersect import OfficePersonIntersect
+from .reservations import Reservations
