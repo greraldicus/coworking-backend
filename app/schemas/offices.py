@@ -20,5 +20,3 @@ class OfficeSearchSchema(BaseSchema):
         ...,
         alias="title"
     )
-
-
