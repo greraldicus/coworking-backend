@@ -25,8 +25,8 @@ async def get_offices_filtered_schema(db: Session, office_filter: Filter) -> Lis
     for of_model in of_models:
         offices_schema_list.append(
             OfficeSearchSchema(
-                of_id=of_model.of_id,
-                of_name=of_model.of_name
+                id=of_model.of_id,
+                title=of_model.of_name
             )
         )
 
