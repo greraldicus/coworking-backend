@@ -37,6 +37,13 @@ async def get_workplace_attributes_intersect_list_models_by_wp_id(
             )
 
 
+async def get_workplace_attributes_intersect_model_by_id(
+    db: Session,
+    wptypeattr_wp_id: int
+) -> WorkplaceAttributesIntersect:
+    return await get_model_if_valid_id(db=db, model_type=WorkplaceAttributesIntersect, validating_id=wptypeattr_wp_id)
+
+
 async def get_workplaces_with_type_schemas(db: Session) -> List[WorkplaceWithTypeSchema]:
     workplace_schemas: List[WorkplaceWithTypeSchema] = []
 
@@ -79,7 +86,7 @@ async def get_workplace_info_schema(db: Session, wp_id: int) -> WorkplaceInfoSch
         workplace_info_schema.attributes.append(
             AttributeWithValueSchema(
                 attr_icon_url=attribute_schema.attr_icon_url,
-                attr_id=attribute_schema.attr_id,
+                wptypeattr_wp_id=attribute_schema.wptypeattr_wp_id,
                 attr_title=attribute_schema.attr_title,
                 attr_value=attribute_schema.attr_value
             )

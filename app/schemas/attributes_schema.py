@@ -70,7 +70,7 @@ class WorkplaceTypeAttributesUpdateSchema(WorkplaceTypeAttributesIdentifiedSchem
 
 
 class AttributeWithValueSchema(BaseSchema):
-    attr_id: int
+    wptypeattr_wp_id: int
     attr_title: str
     attr_value: str
     attr_icon_url: str

@@ -16,7 +16,9 @@ from app.schemas import (
 from .CRUD.CRUD_workplace_attributes import crud_workplace_attributes
 from .CRUD.CRUD_workplace_type_attributes import crud_workplace_type_attributes
 from .workplace_types import get_workplace_types_model_by_id
-from .workplaces import get_workplace_attributes_intersect_list_models_by_wp_id
+from .workplaces import (
+    get_workplace_attributes_intersect_list_models_by_wp_id
+)
 
 
 async def get_attribute_model_by_id(db: Session, attr_id: int) -> Attributes:
@@ -129,7 +131,7 @@ async def get_attribute_with_value_list_schema(db: Session, wp_id: int) -> List[
         attribute_model = await get_attribute_model_by_id(db=db, attr_id=workplace_attribute_model.wpattr_attr_id)
         attributes_with_value_list_schema.append(
             AttributeWithValueSchema(
-                attr_id=workplace_attribute_model.wpattr_attr_id,
+                wptypeattr_wp_id=workplace_attributes_intersect_model.wptypeattr_wp_id,
                 attr_title=attribute_model.attr_title,
                 attr_value=workplace_attribute_model.wpattr_value,
                 attr_icon_url=attribute_model.attr_icon_url
