@@ -11,3 +11,4 @@ from .workplace_attributes_intersect import WorkplaceAttributesIntersect
 from .offices import Offices
 from .office_person_intersect import OfficePersonIntersect
 from .reservations import Reservations
+from .maps import Maps
