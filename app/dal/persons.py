@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.db_models import Persons, Tenures
 from app.dependencies import get_model_if_valid_id
+from .CRUD.CRUD_users import crud_users
 from .tenures import get_tenure_model_by_person_id
 from app.schemas import PersonWithTenureSchema, PersonCreateSchema, PersonUpdateSchema, TenureIdentifiedSchema
 
@@ -77,5 +78,10 @@ async def update_person_info(db: Session, person_schema: PersonUpdateSchema) -> 
 
 
 async def delete_person_by_person_id(db: Session, person_id: int) -> None:
+    from .users import get_user_models_by_person_id
     valid_person_model = await get_person_model_by_id(db=db, person_id=person_id)
+    user_models = await get_user_models_by_person_id(db=db, person_id=person_id)
+    for user_model in user_models:
+        crud_users.remove(db=db, entity_id=user_model.usr_id)
+
     crud_persons.remove(db=db, entity_id=valid_person_model.prsn_id)
