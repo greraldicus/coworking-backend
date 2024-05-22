@@ -12,7 +12,7 @@ from app.schemas import (
     WorkplaceInfoSchema,
     AttributeWithValueSchema,
     WorkplaceAttributesIntersectCreateSchema,
-    WorkplaceWithAttributesSchema
+    WorkplaceWithAttributesSchema, OfficeIdentifiedSchema
 )
 from app.schemas.attributes_schema import WorkplaceTypeAttributesCreateSchema
 from app.schemas.workplaces import WorkplaceCreateSchema
@@ -46,10 +46,13 @@ async def get_workplace_attributes_intersect_model_by_id(
 
 
 async def get_workplaces_with_type_schemas(db: Session) -> List[WorkplaceWithTypeSchema]:
+    from .offices import get_office_model_by_id
+
     workplace_schemas: List[WorkplaceWithTypeSchema] = []
 
     workplace_models = db.query(Workplaces).all()
     for workplace_model in workplace_models:
+        office_model = await get_office_model_by_id(db=db, of_id=workplace_model.wp_of_id)
         type_model = await get_workplace_types_model_by_id(db=db, wptype_id=workplace_model.wp_wptype_id)
         workplace_schemas.append(
             WorkplaceWithTypeSchema(
@@ -58,6 +61,11 @@ async def get_workplaces_with_type_schemas(db: Session) -> List[WorkplaceWithTyp
                 type=WorkplaceTypeIdentifiedSchema(
                     wptype_id=type_model.wptype_id,
                     wptype_title=type_model.wptype_title
+                ),
+                office=OfficeIdentifiedSchema(
+                    of_id=office_model.of_id,
+                    of_address=office_model.of_address,
+                    of_name=office_model.of_name
                 )
             )
         )
@@ -67,10 +75,12 @@ async def get_workplaces_with_type_schemas(db: Session) -> List[WorkplaceWithTyp
 
 async def get_workplace_info_schema(db: Session, wp_id: int) -> WorkplaceInfoSchema:
     from .attributes import get_attribute_with_value_list_schema
+    from .offices import get_office_model_by_id
 
     workplace_model = await get_workplace_model_by_id(db=db, wp_id=wp_id)
     type_model = await get_workplace_types_model_by_id(db=db, wptype_id=workplace_model.wp_wptype_id)
     attribute_schemas = await get_attribute_with_value_list_schema(db=db, wp_id=workplace_model.wp_id)
+    office_model = await get_office_model_by_id(db=db, of_id=workplace_model.wp_of_id)
 
     workplace_info_schema = WorkplaceInfoSchema(
         id=workplace_model.wp_id,
@@ -79,6 +89,11 @@ async def get_workplace_info_schema(db: Session, wp_id: int) -> WorkplaceInfoSch
         type=WorkplaceTypeIdentifiedSchema(
             wptype_id=type_model.wptype_id,
             wptype_title=type_model.wptype_title
+        ),
+        office=OfficeIdentifiedSchema(
+            of_id=office_model.of_id,
+            of_address=office_model.of_address,
+            of_name=office_model.of_name
         ),
         attributes=[]
     )
@@ -101,6 +116,9 @@ async def get_workplace_type_attributes_by_id(db: Session, wptypeattr_id: int) -
     
 
 async def create_workplace(db: Session, workplace_create_schema: WorkplaceCreateSchema) -> Workplaces:
+    from .offices import get_office_model_by_id
+
+    await get_office_model_by_id(db=db, of_id=workplace_create_schema.wp_of_id)
     workplace_model = await crud_workplaces.create(db=db, object_create_schema=workplace_create_schema)
     return workplace_model
 
@@ -124,7 +142,8 @@ async def create_workplace_with_attributes(db: Session, create_schema: Workplace
         workplace_create_schema=WorkplaceCreateSchema(
             wp_address=create_schema.wp_address,
             wp_img_url=create_schema.wp_img_url,
-            wp_wptype_id=create_schema.wp_wptype_id
+            wp_wptype_id=create_schema.wp_wptype_id,
+            wp_of_id=create_schema.wp_of_id
         )
     )
     
@@ -161,11 +180,14 @@ async def delete_attribute_intersect_by_id(db: Session, wptypeattr_wp_id: int) -
 
 
 async def get_workplaces_filtered(db: Session, workplace_filter: Filter) -> List[WorkplaceWithTypeSchema]:
+    from .offices import get_office_model_by_id
+
     workplace_schemas: List[WorkplaceWithTypeSchema] = []
 
     workplace_models: List[Workplaces] = workplace_filter.filter(db.query(Workplaces))
 
     for workplace_model in workplace_models:
+        office_model = await get_office_model_by_id(db=db, of_id=workplace_model.wp_of_id)
         type_model = await get_workplace_types_model_by_id(db=db, wptype_id=workplace_model.wp_wptype_id)
         workplace_schemas.append(
             WorkplaceWithTypeSchema(
@@ -174,6 +196,11 @@ async def get_workplaces_filtered(db: Session, workplace_filter: Filter) -> List
                 type=WorkplaceTypeIdentifiedSchema(
                     wptype_id=type_model.wptype_id,
                     wptype_title=type_model.wptype_title
+                ),
+                office=OfficeIdentifiedSchema(
+                    of_id=office_model.of_id,
+                    of_address=office_model.of_address,
+                    of_name=office_model.of_name
                 )
             )
         )

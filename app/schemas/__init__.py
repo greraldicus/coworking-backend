@@ -58,3 +58,4 @@ from .workplace_types import (
     WorkplaceTypeUpdateSchema
 )
 from .files import FileInfoSchema
+from .offices import OfficeBaseSchema, OfficeIdentifiedSchema

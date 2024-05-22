@@ -1,6 +1,6 @@
 from typing import List
 
-from app.db_models import workplace_attributes
+from .offices import OfficeIdentifiedSchema
 
 from .base_schema import BaseSchema
 from .workplace_types import WorkplaceTypeIdentifiedSchema
@@ -15,6 +15,7 @@ class WorkplaceBaseSchema(BaseSchema):
         validation_alias=AliasChoices("wp_address", "address"),
         serialization_alias="address"
     )
+    office: OfficeIdentifiedSchema
 
 
 class WorkplaceIdentifiedSchema(WorkplaceBaseSchema):
@@ -27,6 +28,7 @@ class WorkplaceWithTypeSchema(WorkplaceIdentifiedSchema):
 
 class WorkplaceInfoSchema(BaseSchema):
     id: int
+    office: OfficeIdentifiedSchema
     address: str
     img_url: str
     type: WorkplaceTypeIdentifiedSchema
@@ -37,6 +39,7 @@ class WorkplaceCreateSchema(BaseSchema):
     wp_address: str
     wp_img_url: str
     wp_wptype_id: int
+    wp_of_id: int
 
 
 class WorkplaceUpdateSchema(WorkplaceCreateSchema):

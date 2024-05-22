@@ -36,3 +36,4 @@ from .workplaces import (
     delete_attribute_intersect_by_id
 )
 from .files import upload_file
+from .offices import get_office_model_by_id

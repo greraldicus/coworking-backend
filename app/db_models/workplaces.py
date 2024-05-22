@@ -11,5 +11,7 @@ class Workplaces(Base):
     wp_address = Column(TEXT, nullable=False, unique=True)
     wp_img_url = Column(TEXT, nullable=False)
     wp_wptype_id = Column(Integer, ForeignKey("WorkplaceTypes.wptype_id"), nullable=False)
+    wp_of_id = Column(Integer, ForeignKey("Offices.of_id"), nullable=False)
 
     wp_wptype = relationship("WorkplaceTypes")
+    wp_of = relationship("Offices")
