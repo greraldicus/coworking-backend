@@ -58,7 +58,7 @@ from .workplace_types import (
     WorkplaceTypeUpdateSchema
 )
 from .files import FileInfoSchema
-from .offices import OfficeBaseSchema, OfficeIdentifiedSchema
+from .offices import OfficeBaseSchema, OfficeIdentifiedSchema, OfficeSearchSchema
 from .maps_schemas import (
     MapBaseSchema,
     MapIdentifiedSchema

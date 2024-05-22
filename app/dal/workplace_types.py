@@ -12,4 +12,4 @@ async def get_workplace_types_model_by_id(db: Session, wptype_id: int) -> Workpl
 
 async def create_workplace_type(db: Session, create_schema: WorkplaceTypeCreateSchema) -> int:
     wp_type_model = await crud_workplace_types.create(db=db, object_create_schema=create_schema)
-    return wp_type_model.wp_wptype_id
+    return wp_type_model.wptype_id
