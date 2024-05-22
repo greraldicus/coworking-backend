@@ -5,7 +5,7 @@ from .api_v1.endpoints import (
     workplaces_router,
     users_router,
     files_router,
-    maps_router
+    maps_router,
     offices_router
 )
 
