@@ -66,7 +66,10 @@ async def get_workplaces_with_type_schemas(db: Session) -> List[WorkplaceWithTyp
                     of_id=office_model.of_id,
                     of_address=office_model.of_address,
                     of_name=office_model.of_name
-                )
+                ),
+                wp_x_coord=workplace_model.wp_x_coord,
+                wp_y_coord=workplace_model.wp_y_coord,
+                wp_mp_id=workplace_model.wp_mp_id
             )
         )
 
@@ -143,7 +146,10 @@ async def create_workplace_with_attributes(db: Session, create_schema: Workplace
             wp_address=create_schema.wp_address,
             wp_img_url=create_schema.wp_img_url,
             wp_wptype_id=create_schema.wp_wptype_id,
-            wp_of_id=create_schema.wp_of_id
+            wp_of_id=create_schema.wp_of_id,
+            wp_mp_id=create_schema.wp_mp_id,
+            wp_y_coord=create_schema.wp_y_coord,
+            wp_x_coord=create_schema.wp_x_coord
         )
     )
     
@@ -176,7 +182,7 @@ async def delete_attribute_intersect_by_id(db: Session, wptypeattr_wp_id: int) -
         db=db,
         wptypeattr_wp_id=wptypeattr_wp_id
     )
-    crud_wp_intersect.remove(db=db, entity_id=valid_intersect_model.wptypeattr_wp_wp_id)
+    crud_wp_intersect.remove(db=db, entity_id=valid_intersect_model.wptypeattr_wp_id)
 
 
 async def get_workplaces_filtered(db: Session, workplace_filter: Filter) -> List[WorkplaceWithTypeSchema]:
@@ -201,7 +207,10 @@ async def get_workplaces_filtered(db: Session, workplace_filter: Filter) -> List
                     of_id=office_model.of_id,
                     of_address=office_model.of_address,
                     of_name=office_model.of_name
-                )
+                ),
+                wp_x_coord=workplace_model.wp_x_coord,
+                wp_y_coord=workplace_model.wp_y_coord,
+                wp_mp_id=workplace_model.wp_mp_id
             )
         )
 

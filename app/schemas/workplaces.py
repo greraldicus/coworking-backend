@@ -16,6 +16,9 @@ class WorkplaceBaseSchema(BaseSchema):
         serialization_alias="address"
     )
     office: OfficeIdentifiedSchema
+    wp_x_coord: int
+    wp_y_coord: int
+    wp_mp_id: int
 
 
 class WorkplaceIdentifiedSchema(WorkplaceBaseSchema):
@@ -40,6 +43,9 @@ class WorkplaceCreateSchema(BaseSchema):
     wp_img_url: str
     wp_wptype_id: int
     wp_of_id: int
+    wp_x_coord: int
+    wp_y_coord: int
+    wp_mp_id: int
 
 
 class WorkplaceUpdateSchema(WorkplaceCreateSchema):

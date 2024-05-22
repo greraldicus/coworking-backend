@@ -12,6 +12,10 @@ class Workplaces(Base):
     wp_img_url = Column(TEXT, nullable=False)
     wp_wptype_id = Column(Integer, ForeignKey("WorkplaceTypes.wptype_id"), nullable=False)
     wp_of_id = Column(Integer, ForeignKey("Offices.of_id"), nullable=False)
+    wp_mp_id = Column(Integer, ForeignKey("Maps.mp_id"), nullable=False)
+    wp_x_coord = Column(TEXT, nullable=False)
+    wp_y_coord = Column(TEXT, nullable=False)
 
     wp_wptype = relationship("WorkplaceTypes")
     wp_of = relationship("Offices")
+    wp_mp = relationship("Maps")
