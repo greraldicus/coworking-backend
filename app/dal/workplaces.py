@@ -1,5 +1,6 @@
 from typing import List
 
+from fastapi_filter.contrib.sqlalchemy import Filter
 from sqlalchemy.orm import Session
 
 from app.db_models import Workplaces, WorkplaceAttributesIntersect
@@ -157,3 +158,24 @@ async def delete_attribute_intersect_by_id(db: Session, wptypeattr_wp_id: int) -
         wptypeattr_wp_id=wptypeattr_wp_id
     )
     crud_wp_intersect.remove(db=db, entity_id=valid_intersect_model.wptypeattr_wp_wp_id)
+
+
+async def get_workplaces_filtered(db: Session, workplace_filter: Filter) -> List[WorkplaceWithTypeSchema]:
+    workplace_schemas: List[WorkplaceWithTypeSchema] = []
+
+    workplace_models: List[Workplaces] = workplace_filter.filter(db.query(Workplaces))
+
+    for workplace_model in workplace_models:
+        type_model = await get_workplace_types_model_by_id(db=db, wptype_id=workplace_model.wp_wptype_id)
+        workplace_schemas.append(
+            WorkplaceWithTypeSchema(
+                wp_id=workplace_model.wp_id,
+                wp_address=workplace_model.wp_address,
+                type=WorkplaceTypeIdentifiedSchema(
+                    wptype_id=type_model.wptype_id,
+                    wptype_title=type_model.wptype_title
+                )
+            )
+        )
+
+    return workplace_schemas

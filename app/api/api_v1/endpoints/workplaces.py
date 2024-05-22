@@ -1,8 +1,11 @@
 from typing import List
 
 from fastapi import APIRouter, Depends
+from fastapi_filter import FilterDepends
+from fastapi_filter.contrib.sqlalchemy import Filter
 from sqlalchemy.orm import Session
 
+from app.api.api_v1.filters import WorkplaceAddressFilter
 from app.dal import (
     get_attribute_model_by_id,
     create_attribute_value_by_workplace_type_id,
@@ -13,7 +16,7 @@ from app.dal import (
     delete_workplace_by_id,
     delete_attribute_intersect_by_id
 )
-from app.dal.workplaces import create_workplace_with_attributes
+from app.dal.workplaces import create_workplace_with_attributes, get_workplaces_filtered
 from app.db import get_db
 from app.schemas import (
     AttributesIdentifiedSchema,
@@ -73,16 +76,6 @@ async def get_attributes_by_workplace_id(
 
 
 @workplaces_router.get(
-    path="/get_workplaces",
-    response_model=List[WorkplaceWithTypeSchema]
-)
-async def get_workplaces_endpoint(
-    db: Session = Depends(get_db)
-):
-    return await get_workplaces_with_type_schemas(db=db)
-
-
-@workplaces_router.get(
     path="/get_workplace_info",
     response_model=WorkplaceInfoSchema
 )
@@ -124,3 +117,14 @@ async def delete_workplace_attribute_endpoint(
     db: Session = Depends(get_db)
 ):
     await delete_attribute_intersect_by_id(db=db, wptypeattr_wp_id=wptypeattr_wp_id)
+
+
+@workplaces_router.get(
+    path="/get_workplaces",
+    response_model=List[WorkplaceWithTypeSchema],
+)
+async def get_workplaces_filtered_endpoint(
+        db: Session = Depends(get_db),
+        workplace_filter: Filter = FilterDepends(WorkplaceAddressFilter)
+):
+    return await get_workplaces_filtered(db=db, workplace_filter=workplace_filter)
