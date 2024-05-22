@@ -9,7 +9,9 @@ from app.dal import (
     get_attributes_values_list_schema_by_wptype_id,
     get_attribute_with_value_list_schema,
     get_workplaces_with_type_schemas,
-    get_workplace_info_schema
+    get_workplace_info_schema,
+    delete_workplace_by_id,
+    delete_attribute_intersect_by_id
 )
 from app.dal.workplaces import create_workplace_with_attributes
 from app.db import get_db
@@ -100,4 +102,25 @@ async def create_workplace_with_attributes_endpoint(
     db: Session = Depends(get_db)
 ):
     return await create_workplace_with_attributes(db=db, create_schema=create_schema)
-    
+
+
+@workplaces_router.delete(
+    path="/delete_workplace",
+    response_model=None
+)
+async def delete_workplace_endpoint(
+    workplace_id: int,
+    db: Session = Depends(get_db)
+):
+    await delete_workplace_by_id(db=db, workplace_id=workplace_id)
+
+
+@workplaces_router.delete(
+    path="/delete_workplace_attribute",
+    response_model=None
+)
+async def delete_workplace_attribute_endpoint(
+    wptypeattr_wp_id: int,
+    db: Session = Depends(get_db)
+):
+    await delete_attribute_intersect_by_id(db=db, wptypeattr_wp_id=wptypeattr_wp_id)

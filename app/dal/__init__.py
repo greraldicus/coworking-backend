@@ -31,6 +31,8 @@ from .attributes import (
 from .workplaces import (
     get_workplaces_with_type_schemas,
     get_workplace_info_schema,
-    get_workplace_attributes_intersect_model_by_id
+    get_workplace_attributes_intersect_model_by_id,
+    delete_workplace_by_id,
+    delete_attribute_intersect_by_id
 )
 from .files import upload_file

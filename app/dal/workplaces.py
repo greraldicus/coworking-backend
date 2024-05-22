@@ -137,3 +137,23 @@ async def create_workplace_with_attributes(db: Session, create_schema: Workplace
             )
         )  
     return workplace_model.wp_id
+
+
+async def delete_workplace_by_id(db: Session, workplace_id: int) -> None:
+    valid_workplace_model = await get_workplace_model_by_id(db=db, wp_id=workplace_id)
+    attributes_intersect_models = await get_workplace_attributes_intersect_list_models_by_wp_id(
+        db=db,
+        wp_id=valid_workplace_model.wp_id
+    )
+    for attributes_intersect_model in attributes_intersect_models:
+        crud_wp_intersect.remove(db=db, entity_id=attributes_intersect_model.wptypeattr_wp_id)
+
+    crud_workplaces.remove(db=db, entity_id=valid_workplace_model.wp_id)
+
+
+async def delete_attribute_intersect_by_id(db: Session, wptypeattr_wp_id: int) -> None:
+    valid_intersect_model = await get_workplace_attributes_intersect_model_by_id(
+        db=db,
+        wptypeattr_wp_id=wptypeattr_wp_id
+    )
+    crud_wp_intersect.remove(db=db, entity_id=valid_intersect_model.wptypeattr_wp_wp_id)
