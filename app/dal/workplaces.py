@@ -176,7 +176,7 @@ async def delete_attribute_intersect_by_id(db: Session, wptypeattr_wp_id: int) -
         db=db,
         wptypeattr_wp_id=wptypeattr_wp_id
     )
-    crud_wp_intersect.remove(db=db, entity_id=valid_intersect_model.wptypeattr_wp_wp_id)
+    crud_wp_intersect.remove(db=db, entity_id=valid_intersect_model.wptypeattr_wp_id)
 
 
 async def get_workplaces_filtered(db: Session, workplace_filter: Filter) -> List[WorkplaceWithTypeSchema]:
