@@ -37,7 +37,8 @@ from .workplaces import (
     WorkplaceInfoSchema,
     WorkplaceCreateSchema,
     WorkplaceUpdateSchema,
-    WorkplaceWithAttributesSchema
+    WorkplaceWithAttributesSchema,
+    WorkplacesCoordsForMapSchema
 )
 from .workplace_attributes_intersect_schemas import (
     WorkplaceAttributesIntersectCreateSchema,

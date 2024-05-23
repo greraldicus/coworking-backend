@@ -12,7 +12,9 @@ from app.schemas import (
     WorkplaceInfoSchema,
     AttributeWithValueSchema,
     WorkplaceAttributesIntersectCreateSchema,
-    WorkplaceWithAttributesSchema, OfficeIdentifiedSchema
+    WorkplaceWithAttributesSchema,
+    OfficeIdentifiedSchema,
+    WorkplacesCoordsForMapSchema
 )
 from app.schemas.attributes_schema import WorkplaceTypeAttributesCreateSchema
 from app.schemas.workplaces import WorkplaceCreateSchema
@@ -215,3 +217,33 @@ async def get_workplaces_filtered(db: Session, workplace_filter: Filter) -> List
         )
 
     return workplace_schemas
+
+
+async def get_workplaces_models_by_map_id(
+    db: Session,
+    map_id: int
+) -> List[Workplaces]:
+    from .maps import get_map_model_by_id
+
+    valid_map_model = await get_map_model_by_id(db=db, map_id=map_id)
+    return db.query(Workplaces).filter(Workplaces.wp_mp_id == valid_map_model.mp_id).all()
+
+
+async def get_wp_map_coord_schemas(
+    db: Session,
+    map_id: int
+) -> List[WorkplacesCoordsForMapSchema]:
+    workplaces_schemas: List[WorkplacesCoordsForMapSchema] = []
+
+    workplaces_models = await get_workplaces_models_by_map_id(db=db, map_id=map_id)
+
+    for workplaces_model in workplaces_models:
+        workplaces_schemas.append(
+            WorkplacesCoordsForMapSchema(
+                wp_id=workplaces_model.wp_id,
+                wp_y_coord=workplaces_model.wp_y_coord,
+                wp_x_coord=workplaces_model.wp_x_coord
+            )
+        )
+
+    return workplaces_schemas

@@ -5,6 +5,11 @@ from sqlalchemy.orm import Session
 from app.dal import get_office_model_by_id
 from app.schemas import MapIdentifiedSchema
 from app.db_models import Maps
+from app.dependencies import get_model_if_valid_id
+
+
+async def get_map_model_by_id(db: Session, map_id: int) -> Maps:
+    return await get_model_if_valid_id(db=db, model_type=Maps, validating_id=map_id)
 
 
 async def get_maps_models_by_office_id(db: Session, office_id: int) -> List[Maps]:

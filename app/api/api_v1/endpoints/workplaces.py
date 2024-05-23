@@ -13,7 +13,8 @@ from app.dal import (
     get_attribute_with_value_list_schema,
     get_workplace_info_schema,
     delete_workplace_by_id,
-    delete_attribute_intersect_by_id
+    delete_attribute_intersect_by_id,
+    get_wp_map_coord_schemas
 )
 from app.dal.workplaces import create_workplace_with_attributes, get_workplaces_filtered
 from app.db import get_db
@@ -24,7 +25,7 @@ from app.schemas import (
     AttributeWithValuesSchema,
     WorkplaceWithTypeSchema,
     WorkplaceInfoSchema,
-    WorkplaceWithAttributesSchema
+    WorkplaceWithAttributesSchema, WorkplacesCoordsForMapSchema
 )
 
 workplaces_router = APIRouter()
@@ -127,3 +128,17 @@ async def get_workplaces_filtered_endpoint(
         workplace_filter: Filter = FilterDepends(WorkplaceAddressFilter)
 ):
     return await get_workplaces_filtered(db=db, workplace_filter=workplace_filter)
+
+
+@workplaces_router.get(
+    path="/get_workplaces_by_map_id",
+    response_model=List[WorkplacesCoordsForMapSchema]
+)
+async def get_workplaces_coords_endpoint(
+        map_id: int,
+        db: Session = Depends(get_db)
+):
+    return await get_wp_map_coord_schemas(
+        db=db,
+        map_id=map_id
+    )

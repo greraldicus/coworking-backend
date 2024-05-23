@@ -54,4 +54,9 @@ class WorkplaceUpdateSchema(WorkplaceCreateSchema):
 
 class WorkplaceWithAttributesSchema(WorkplaceCreateSchema):
     wp_attributes_id: List[int]
-    
+
+
+class WorkplacesCoordsForMapSchema(BaseSchema):
+    wp_id: int
+    wp_x_coord: int
+    wp_y_coord: int

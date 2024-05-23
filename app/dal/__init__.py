@@ -33,7 +33,9 @@ from .workplaces import (
     get_workplace_info_schema,
     get_workplace_attributes_intersect_model_by_id,
     delete_workplace_by_id,
-    delete_attribute_intersect_by_id
+    delete_attribute_intersect_by_id,
+    get_workplaces_models_by_map_id,
+    get_wp_map_coord_schemas
 )
 from .files import upload_file
 from .offices import get_office_model_by_id
